@@ -1,0 +1,9 @@
+ID,name,descr,createdAt,createdBy,modifiedAt,modifiedBy
+04d1ade3-f389-4da1-835c-09e9d00ef983,Work,Tasks related to work projects,2025-09-01,alice,2025-09-02,alice
+e8d23e7d-6f42-4c81-b8e1-e03b632746eb,Personal,Tasks related to personal life,2025-09-02,alice,2025-09-03,alice
+d24ebb28-429e-4581-afcc-04aa56ae25a9,Shopping,Tasks related to shopping,2025-09-03,alice,2025-09-04,alice
+2f7b0933-b428-40d7-91f2-c4e8f9a55012,Health,Tasks related to health and fitness,2025-09-04,alice,2025-09-05,alice
+10498ae8-aa47-47c3-96f0-1b29eaf65e59,Education,Tasks related to learning and education,2025-09-05,alice,2025-09-06,alice
+d20b017c-8267-4c8c-b558-95a2bf0ef678,Travel,Tasks related to travel and vacations,2025-09-06,alice,2025-09-07,alice
+85f997cf-fcff-4a5d-a622-4ba0b431e504,Home,Tasks related to home and household,2025-09-07,alice,2025-09-08,alice
+3072cc94-f70a-4595-a814-71b65e2fb9b8,Finance,Tasks related to financial matters,2025-09-08,alice,2025-09-09,alice

@@ -1,0 +1,8 @@
+ID,name,descr
+1,To Do,Tasks that are yet to be started
+2,In Progress,Tasks that are currently being worked on
+3,Done,Tasks that have been completed
+4,Blocked,Tasks that cannot proceed due to external dependencies
+5,On Hold,Tasks that are temporarily paused 
+6,Cancelled,Tasks that have been cancelled and will not be completed
+7,Review,Tasks that are awaiting review or approval

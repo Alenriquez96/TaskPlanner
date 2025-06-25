@@ -1,0 +1,222 @@
+<mvc:View xmlns:tnt="sap.tnt" 
+    controllerName="task.planner.taskplanner.controller.TaskPlanner"
+    xmlns:core="sap.ui.core"
+    xmlns="sap.m"
+    xmlns:mvc="sap.ui.core.mvc"
+	xmlns:grid="sap.ui.layout.cssgrid"
+	xmlns:f="sap.f"
+	xmlns:dnd="sap.ui.core.dnd"
+	xmlns:dnd-grid="sap.f.dnd"
+    busyIndicatorDelay="0"
+    >
+    <Page id="page" title="{i18n>title}" >
+        <HBox id="_IDGenHBox" justifyContent="SpaceAround" gap="20px" wrap="Wrap" class="sapUiSmallMargin">
+            <f:GridList
+                id="gridListToDo"
+                width="auto"
+                items="{
+                    path: '/Tasks',
+                    parameters: {
+                        expand: 'type,tags'
+                    },
+                    templateShareable: false,
+                    filters: {
+                        path: 'status_ID',
+                        operator: 'EQ',
+                        value1: '1'
+                    }
+                }">
+                <f:headerToolbar>
+                    <tnt:ToolHeader id="_IDGenToolHeader1" >
+                        <Text id="_IDGenText" text="To Do"/>
+                        <core:Icon id="_IDGenIcon" src="sap-icon://activities"/>
+                    </tnt:ToolHeader>
+                </f:headerToolbar>
+                <f:customData>
+                    <core:CustomData key="status" value="1"/>
+                </f:customData>
+                <f:dragDropConfig>
+                    <dnd:DragInfo id="_IDGenDragInfo2"  sourceAggregation="items" />
+                    <dnd-grid:GridDropInfo id="_IDGenGridDropInfo1"  targetAggregation="items" dropPosition="Between" dropLayout="Horizontal" drop="onDrop" />
+                </f:dragDropConfig>
+
+                <f:customLayout>
+                    <grid:GridBoxLayout id="_IDGenGridBoxLayout1"  boxMinWidth="17rem" />
+                </f:customLayout>
+                <f:items>
+                    <f:GridListItem 
+                        id="_IDGenGridListItem1" 
+                        counter="1"
+                        highlight="{
+                            path: 'status_ID', 
+                            formatter: '.statusTask'
+                        }"
+                        type="Active"
+                        unread="false"
+                        >
+                        <VBox id="_IDGenVBox2" height="100%" width="100%" class="sapUiSmallMargin">
+                            <layoutData>
+                                <FlexItemData id="_IDGenFlexItemData1"  growFactor="1" shrinkFactor="0" />
+                            </layoutData>
+
+                            <Title id="_IDGenTitle1"  text="{title}" wrapping="true" />
+                            <Label id="_IDGenLabel1"  text="{description}" wrapping="true" />
+                            <ObjectStatus id="_IDGenObjectStatus1"
+                                text="Priority: {
+                                    path: 'priority',
+                                    formatter: '.priorityTextFormatter'
+                                }"
+                                state="{
+                                    path: 'priority',
+                                    formatter: '.priorityFormatter'
+                                }"
+                            />
+                            <HBox wrap="Wrap" items="{
+                                path: 'tags',
+                                parameters: {
+                                    expand: 'tag'
+                                }
+                            }">
+                                <items>
+                                    <GenericTag text="{tag/name}"/>
+                                </items>
+                            </HBox>
+                        </VBox>
+                    </f:GridListItem>
+                </f:items>
+            </f:GridList>
+
+
+            <f:GridList
+                id="gridListInProgress"
+                width="auto"
+                items="{
+                    path: '/Tasks',
+                    parameters: {
+                        expand: 'type,tags'
+                    },
+                    templateShareable: false,
+                    filters: {
+                        path: 'status_ID',
+                        operator: 'EQ',
+                        value1: '2'
+                    }
+                }">
+                <f:headerToolbar>
+                    <tnt:ToolHeader id="_IDGenToolHeader2" >
+                        <Text id="_IDGenText1" text="In Progress"/>
+                        <core:Icon id="_IDGenIcon1" src="sap-icon://activity-individual"/>
+                    </tnt:ToolHeader>
+                </f:headerToolbar>
+                <f:customData>
+                    <core:CustomData key="status" value="2"/>
+                </f:customData>
+                <f:dragDropConfig>
+                    <dnd:DragInfo id="_IDGenDragInfo1" sourceAggregation="items" />
+                    <dnd-grid:GridDropInfo id="_IDGenGridDropInfo" targetAggregation="items" dropPosition="Between" dropLayout="Horizontal" drop="onDrop" />
+                </f:dragDropConfig>
+
+                <f:customLayout>
+                    <grid:GridBoxLayout id="_IDGenGridBoxLayout" boxMinWidth="17rem" />
+                </f:customLayout>
+
+                <f:items>
+                    <f:GridListItem 
+                        id="_IDGenGridListItem"
+                        counter="1"
+                        highlight="{
+                            path: 'status_ID', 
+                            formatter: '.statusTask'
+                        }"                        
+                        type="Active"
+                        unread="false"
+                    >
+                        <VBox id="_IDGenVBox" height="100%" width="100%" class="sapUiSmallMargin">
+                            <layoutData>
+                                <FlexItemData id="_IDGenFlexItemData" growFactor="1" shrinkFactor="0" />
+                            </layoutData>
+
+                            <Title id="_IDGenTitle" text="{title}" wrapping="true" />
+                            <Label id="_IDGenLabel" text="{description}" wrapping="true" />
+                            <ObjectStatus id="_IDGenObjectStatus2"
+                                text="Priority: {
+                                    path: 'priority',
+                                    formatter: '.priorityTextFormatter'
+                                }"
+                                state="{
+                                    path: 'priority',
+                                    formatter: '.priorityFormatter'
+                                }"
+                            />
+                        </VBox>
+                    </f:GridListItem>
+                </f:items>
+            </f:GridList>
+
+            <f:GridList
+                id="gridListCompleted"
+                width="auto"
+                items="{
+                    path: '/Tasks',
+                    parameters: {
+                        expand: 'type,tags'
+                    },
+                    templateShareable: false,
+                    filters: {
+                        path: 'status_ID',
+                        operator: 'EQ',
+                        value1: '3'
+                    }
+                }">
+                <f:headerToolbar>
+                    <tnt:ToolHeader id="_IDGenToolHeader3" >
+                        <Text id="_IDGenText2" text="Done"/>
+                        <core:Icon id="_IDGenIcon2" src="sap-icon://task"/>
+                    </tnt:ToolHeader>
+                </f:headerToolbar>
+                <f:customData>
+                    <core:CustomData key="status" value="3"/>
+                </f:customData>
+                <f:dragDropConfig>
+                    <dnd:DragInfo id="_IDGenDragInfo3"  sourceAggregation="items" />
+                    <dnd-grid:GridDropInfo id="_IDGenGridDropInfo2"  targetAggregation="items" dropPosition="Between" dropLayout="Horizontal" drop="onDrop" />
+                </f:dragDropConfig>
+
+                <f:customLayout>
+                    <grid:GridBoxLayout id="_IDGenGridBoxLayout2"  boxMinWidth="17rem" />
+                </f:customLayout>
+                <f:items>
+                    <f:GridListItem 
+                        id="_IDGenGridListItem2" 
+                        counter="1"
+                        highlight="{
+                            path: 'status_ID', 
+                            formatter: '.statusTask'
+                        }"                        
+                        type="Active"
+                        unread="false"
+                        >
+                        <VBox id="_IDGenVBox4"  height="100%" width="100%" class="sapUiSmallMargin">
+                            <layoutData>
+                                <FlexItemData id="_IDGenFlexItemData2"  growFactor="1" shrinkFactor="0" />
+                            </layoutData>
+
+                            <Title id="_IDGenTitle2"  text="{title}" wrapping="true" />
+                            <Label id="_IDGenLabel2"  text="{description}" wrapping="true" />
+                            <ObjectStatus id="_IDGenObjectStatus3"
+                                text="Priority: {
+                                    path: 'priority',
+                                    formatter: '.priorityTextFormatter'
+                                }"
+                                state="{
+                                    path: 'priority',
+                                    formatter: '.priorityFormatter'
+                                }"
+                            />
+                        </VBox>
+                    </f:GridListItem>
+                </f:items>
+            </f:GridList>
+        </HBox>
+    </Page>
+</mvc:View>
