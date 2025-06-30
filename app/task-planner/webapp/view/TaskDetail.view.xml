@@ -19,7 +19,7 @@
                     <Title id="_IDGenTitle4" text="{title}" wrapping="true" class="sapUiSmallMarginEnd"/>
                 </uxap:snappedHeading>
                 <uxap:actions>
-                    <Button id="_IDGenButton1" text="Delete" type="Negative" />
+                    <Button id="_IDGenButton1" text="Delete" type="Negative" press="onDeleteTask"/>
                     <Button id="_IDGenButton2" text="Edit" icon="sap-icon://edit" type="Emphasized" />
                     <Button id="_IDGenButton3" text="Progress" icon="sap-icon://arrow-down" type="Accept" />
                 </uxap:actions>

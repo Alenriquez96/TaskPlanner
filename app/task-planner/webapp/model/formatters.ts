@@ -37,8 +37,11 @@ export default {
     }
     return MessageType.None;
   },
-  priorityFormatter(priority: int): ValueState {
+  priorityFormatter(priority: int | string): ValueState {
     if (priority) {
+      if (typeof priority === "string") {
+        priority = parseInt(priority, 10);
+      }
       switch (priority) {
         case 1:
           return ValueState.Success; // Low
@@ -54,8 +57,11 @@ export default {
     }
     return ValueState.None;
   },
-  priorityTextFormatter(priority: int): string {
+  priorityTextFormatter(priority: int | string): string {
     if (priority) {
+      if (typeof priority === "string") {
+        priority = parseInt(priority, 10);
+      }
       switch (priority) {
         case 1:
           return "Low";
