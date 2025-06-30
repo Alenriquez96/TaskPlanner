@@ -1,7 +1,16 @@
 <mvc:View controllerName="task.planner.taskplanner.controller.App"
     displayBlock="true"
+    height="100%"
     xmlns:mvc="sap.ui.core.mvc"
-    xmlns="sap.m">
-    <App id="app">
-    </App>
+    xmlns="sap.f">
+    <!-- <App id="app">
+    </App> -->
+    <FlexibleColumnLayout id="flexibleColumnLayout" backgroundDesign="Solid" layout="OneColumn">
+		<beginColumnPages>
+			<mvc:XMLView id="beginView" viewName="task.planner.taskplanner.view.TaskPlanner"/>
+		</beginColumnPages>
+		<midColumnPages>
+			<mvc:XMLView id="detailView" viewName="task.planner.taskplanner.view.TaskDetail"/>
+		</midColumnPages>
+	</FlexibleColumnLayout>
 </mvc:View>

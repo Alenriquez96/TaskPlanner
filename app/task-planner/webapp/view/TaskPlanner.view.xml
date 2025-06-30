@@ -51,8 +51,9 @@
                             path: 'status_ID', 
                             formatter: '.statusTask'
                         }"
-                        type="Active"
+                        type="Navigation"
                         unread="false"
+                        press=".onTaskPress"
                         >
                         <VBox id="_IDGenVBox2" height="100%" width="100%" class="sapUiSmallMargin">
                             <layoutData>
@@ -71,14 +72,15 @@
                                     formatter: '.priorityFormatter'
                                 }"
                             />
-                            <HBox wrap="Wrap" items="{
+                            <HBox id="_IDGenHBox2" gap="10px" wrap="Wrap" items="{
                                 path: 'tags',
                                 parameters: {
                                     expand: 'tag'
-                                }
+                                },
+                                templateShareable: false
                             }">
                                 <items>
-                                    <GenericTag text="{tag/name}"/>
+                                    <GenericTag id="_IDGenGenericTag" text="{tag/name}"/>
                                 </items>
                             </HBox>
                         </VBox>
@@ -128,8 +130,9 @@
                             path: 'status_ID', 
                             formatter: '.statusTask'
                         }"                        
-                        type="Active"
+                        type="Navigation"
                         unread="false"
+                        press=".onTaskPress"
                     >
                         <VBox id="_IDGenVBox" height="100%" width="100%" class="sapUiSmallMargin">
                             <layoutData>
@@ -148,6 +151,17 @@
                                     formatter: '.priorityFormatter'
                                 }"
                             />
+                            <HBox id="_IDGenHBox3" gap="10px" wrap="Wrap" items="{
+                                path: 'tags',
+                                parameters: {
+                                    expand: 'tag'
+                                },
+                                templateShareable: false
+                            }">
+                                <items>
+                                    <GenericTag id="_IDGenGenericTag1" text="{name}"/>
+                                </items>
+                            </HBox>
                         </VBox>
                     </f:GridListItem>
                 </f:items>
@@ -193,8 +207,9 @@
                             path: 'status_ID', 
                             formatter: '.statusTask'
                         }"                        
-                        type="Active"
+                        type="Navigation"
                         unread="false"
+                        press=".onTaskPress"
                         >
                         <VBox id="_IDGenVBox4"  height="100%" width="100%" class="sapUiSmallMargin">
                             <layoutData>
@@ -213,6 +228,17 @@
                                     formatter: '.priorityFormatter'
                                 }"
                             />
+                            <HBox id="_IDGenHBox4" gap="10px" wrap="Wrap" items="{
+                                path: 'tags',
+                                parameters: {
+                                    expand: 'tag'
+                                },
+                                templateShareable: false
+                            }">
+                                <items>
+                                    <GenericTag id="_IDGenGenericTag2" text="{name}"/>
+                                </items>
+                            </HBox>
                         </VBox>
                     </f:GridListItem>
                 </f:items>

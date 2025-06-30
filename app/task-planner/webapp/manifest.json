@@ -81,27 +81,36 @@
     },
     "routing": {
       "config": {
-        "routerClass": "sap.m.routing.Router",
-        "controlAggregation": "pages",
-        "controlId": "app",
-        "transition": "slide",
+        "routerClass": "sap.f.routing.Router",
         "type": "View",
         "viewType": "XML",
         "path": "task.planner.taskplanner.view",
-        "async": true,
-        "viewPath": "task.planner.taskplanner.view"
+        "controlId": "flexibleColumnLayout",
+        "transition": "slide",
+        "async": true
       },
       "routes": [
         {
           "name": "RouteTaskPlanner",
           "pattern": ":?query:",
           "target": ["TargetTaskPlanner"]
+        },
+        {
+          "name": "RouteTaskPlannerDetail",
+          "pattern": "task/{taskId}",
+          "target": ["TargetTaskPlannerDetail"]
         }
       ],
       "targets": {
         "TargetTaskPlanner": {
           "id": "TaskPlanner",
-          "name": "TaskPlanner"
+          "name": "TaskPlanner",
+          "controlAggregation": "beginColumnPages"
+        },
+        "TargetTaskPlannerDetail": {
+          "id": "TaskPlannerDetail",
+          "name": "TaskDetail",
+          "controlAggregation": "endColumnPages"
         }
       }
     },

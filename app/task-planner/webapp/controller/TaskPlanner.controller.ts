@@ -8,6 +8,9 @@ import Controller from "sap/ui/core/mvc/Controller";
 import ODataModel from "sap/ui/model/odata/v2/ODataModel";
 import ODataListBinding from "sap/ui/model/odata/v4/ODataListBinding";
 import { ValueState } from "sap/ui/core/library";
+import { ListItemBase$PressEvent } from "sap/m/ListItemBase";
+import Router from "sap/f/routing/Router";
+import FlexibleColumnLayout from "sap/f/FlexibleColumnLayout";
 
 /**
  * @namespace task.planner.taskplanner.controller
@@ -17,9 +20,9 @@ export default class TaskPlanner extends Controller {
   public onInit(): void {}
 
   public onDrop(oEvent: DropInfo$DropEvent): void {
-    const oDraggedItem = oEvent.getParameter("draggedControl") as GridListItem;
-    const oDraggedContext = oDraggedItem.getBindingContext();
-    if (!oDraggedContext) return;
+    const draggedItem = oEvent.getParameter("draggedControl") as GridListItem;
+    const draggedItemContext = draggedItem.getBindingContext();
+    if (!draggedItemContext) return;
 
     const oTargetGrid = oEvent.getSource().getParent() as GridList;
 
@@ -43,8 +46,8 @@ export default class TaskPlanner extends Controller {
         return;
     }
 
-    const oModel = oDraggedContext.getModel() as ODataModel;
-    const sPath = oDraggedContext.getPath();
+    const oModel = draggedItemContext.getModel() as ODataModel;
+    const sPath = draggedItemContext.getPath();
 
     oModel.setProperty(`${sPath}/status_ID`, newStatusId);
 
@@ -55,8 +58,11 @@ export default class TaskPlanner extends Controller {
     oModel.refresh(true);
   }
 
-  public statusTask(status: int): MessageType {
+  public statusTask(status: int | string): MessageType {
     if (status) {
+      if (typeof status === "string") {
+        status = parseInt(status, 10);
+      }
       switch (status) {
         case 1:
           return MessageType.Information;
@@ -113,5 +119,21 @@ export default class TaskPlanner extends Controller {
       }
     }
     return "Unknown";
+  }
+
+  /**
+   * onTaskPress
+   */
+  public onTaskPress(oEvent: ListItemBase$PressEvent) {
+    const router = (this.getOwnerComponent() as any)?.getRouter() as Router;
+    const fcl = this.getView()
+      ?.getParent()
+      ?.getParent() as FlexibleColumnLayout;
+    if (fcl && fcl.getLayout() === "OneColumn") {
+      fcl.setLayout("TwoColumnsMidExpanded");
+    }
+    router.navTo("RouteTaskPlannerDetail", {
+      taskId: oEvent.getSource().getBindingContext()?.getProperty("ID"),
+    });
   }
 }
