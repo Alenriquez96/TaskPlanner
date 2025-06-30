@@ -1,4 +1,4 @@
-<mvc:View 
+<mvc:View xmlns:form="sap.ui.layout.form" 
     controllerName="task.planner.taskplanner.controller.TaskDetail"
     id="taskDetailView"
     xmlns="sap.m"
@@ -25,19 +25,19 @@
                 </uxap:actions>
                 <uxap:navigationActions>
                     <OverflowToolbarButton 
-                        id="_IDGenOverflowToolbarButton"
+                        id="toggleFullScreenBtn"
 						type="Transparent"
 						icon="sap-icon://full-screen"
 						press=".handleFullScreen"
 						tooltip="Enter Full Screen Mode"
-						visible="true"/>
+						visible="{= !${UI>/isFullScreen}}"/>
 					<OverflowToolbarButton 
-                        id="_IDGenOverflowToolbarButton2"
+                        id="exitFullScreenBtn"
 						type="Transparent"
 						icon="sap-icon://exit-full-screen"
 						press=".handleExitFullScreen"
 						tooltip="Exit Full Screen Mode"
-						visible="true"/>
+						visible="{UI>/isFullScreen}"/>
 					<OverflowToolbarButton 
                         id="_IDGenOverflowToolbarButton3"
 						type="Transparent"
@@ -84,9 +84,16 @@
             <uxap:ObjectPageSection title="Task Details" id="_IDGenObjectPageSection">
                 <uxap:subSections>
                     <uxap:ObjectPageSubSection id="_IDGenObjectPageSubSection1" >
-                        <Text id="_IDGenText3" text="{title}"/>
-                        <Text id="_IDGenText4" text="{description}"/>
-                        <Text id="_IDGenText5" text="{name}"/>
+                        <form:SimpleForm id="_IDGenSimpleForm" editable="false">
+                            <form:content>
+                                <Label id="_IDGenLabel7"  text="Title"/>
+                                <Text id="_IDGenText3"  text="{title}"/>
+                                <Label id="_IDGenLabel8"  text="Description"/>
+                                <Text id="_IDGenText4"  text="{description}"/>
+                                <Label id="_IDGenLabel9"  text="Due Date"/>
+                                <Text id="_IDGenText5"  text="{dueDate}"/>
+                            </form:content>
+                        </form:SimpleForm>
                     </uxap:ObjectPageSubSection>
                 </uxap:subSections>
             </uxap:ObjectPageSection>
@@ -98,7 +105,7 @@
                             templateShareable: false
                         }">
                             <items>
-                                <StandardListItem id="_IDGenStandardListItem" title="{name}"/>
+                                <StandardListItem id="_IDGenStandardListItem" wrapping="true" description="{tag/descr}" infoState="Information" title="{tag/name}"/>
                             </items>
                         </List>
                     </uxap:ObjectPageSubSection>

@@ -7,6 +7,7 @@ import Controller from "sap/ui/core/mvc/Controller";
 import { Route$PatternMatchedEvent } from "sap/ui/core/routing/Route";
 import UIComponent from "sap/ui/core/UIComponent";
 import Context from "sap/ui/model/Context";
+import JSONModel from "sap/ui/model/json/JSONModel";
 import ODataModel from "sap/ui/model/odata/v2/ODataModel";
 
 /**
@@ -24,6 +25,13 @@ export default class TaskDetail extends Controller {
         ?.getRoute("RouteTaskPlannerDetail")
         ?.attachPatternMatched(this.onRouteMatched, this);
     }
+
+    this.getView()?.setModel(
+      new JSONModel({
+        isFullScreen: false,
+      }),
+      "UI"
+    );
   }
 
   private onRouteMatched(oEvent: Route$PatternMatchedEvent): void {
@@ -93,6 +101,32 @@ export default class TaskDetail extends Controller {
           console.error("Error deleting task:", err);
         },
       });
+    }
+  }
+
+  public handleFullScreen(oEvent: Button$PressEvent): void {
+    const fcl = this.getView()
+      ?.getParent()
+      ?.getParent() as FlexibleColumnLayout;
+    if (fcl) {
+      fcl.setLayout("MidColumnFullScreen");
+      (this.getView()?.getModel("UI") as JSONModel)?.setProperty(
+        "/isFullScreen",
+        true
+      );
+    }
+  }
+
+  public handleExitFullScreen(oEvent: Button$PressEvent): void {
+    const fcl = this.getView()
+      ?.getParent()
+      ?.getParent() as FlexibleColumnLayout;
+    if (fcl) {
+      fcl.setLayout("TwoColumnsMidExpanded");
+      (this.getView()?.getModel("UI") as JSONModel)?.setProperty(
+        "/isFullScreen",
+        false
+      );
     }
   }
 }

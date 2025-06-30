@@ -1,0 +1,55 @@
+<core:FragmentDefinition 
+    xmlns:form="sap.ui.layout.form"
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+>
+    <Dialog 
+        id="newTaskDialog"
+        icon="sap-icon://add-document"
+        title="New Task"
+        type="Standard"
+        resizable="true"
+        draggable="true"
+        afterClose=".onAfterClose"
+    >
+     <content>
+        <form:SimpleForm id="_IDGenSimpleForm2" >
+            <form:content>
+                <Label id="_IDGenLabel6" text="Title"/>
+                <Input id="taskTitleInput" value="{task>/title}" required="true" placeholder="Introduce a title..."/>
+
+                <Label id="_IDGenLabel10" text="Description" />
+                <TextArea id="taskDescriptionInput" value="{task>/description}" rows="4" placeholder="Introduce a description for the task..."/>
+
+                <Label id="_IDGenLabel11" text="Due Date"/>
+                <DatePicker id="taskDueDateInput" value="{task>/dueDate}" displayFormat="dd/MM/yyyy"/>
+
+                <Label id="_IDGenLabel12" text="Priority"/>
+                <Select id="taskPriorityInput" selectedKey="{task>/priority}">
+                    <core:Item id="_IDGenItem" key="Low" text="Low"/>
+                    <core:Item id="_IDGenItem1" key="Medium" text="Medium"/>
+                    <core:Item id="_IDGenItem2" key="High" text="High"/>
+                </Select>
+            </form:content>
+        </form:SimpleForm>
+     </content>  
+     <footer>
+        <OverflowToolbar id="_IDGenOverflowToolbar" >
+            <content>
+                <Button 
+                    id="createTaskButton"
+                    text="Create Task"
+                    type="Emphasized"
+                    press=".onCreateTaskPress"
+                />
+                <Button 
+                    id="cancelButton"
+                    text="Cancel"
+                    type="Negative"
+                    press=".onCancelPress"       
+                />
+            </content>
+        </OverflowToolbar>
+     </footer> 
+    </Dialog>
+</core:FragmentDefinition>

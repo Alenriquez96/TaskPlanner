@@ -13,6 +13,13 @@
     }"
     >
     <Page id="page" title="{i18n>title}" >
+        <headerContent>
+            <Toolbar id="_IDGenToolbar1" >
+                <content>
+                    <Button id="_IDGenButton" text="New Task" type="Emphasized" icon="sap-icon://add-document" press=".onNewTask"/>
+                </content>
+            </Toolbar>
+        </headerContent>
         <HBox id="_IDGenHBox" justifyContent="SpaceAround" gap="20px" wrap="Wrap" class="sapUiSmallMargin">
             <f:GridList
                 id="gridListToDo"
@@ -20,7 +27,7 @@
                 items="{
                     path: '/Tasks',
                     parameters: {
-                        expand: 'type,tags'
+                        expand: 'type,tags($expand=tag)'
                     },
                     templateShareable: false,
                     filters: {
@@ -77,9 +84,6 @@
                             />
                             <HBox id="_IDGenHBox2" gap="10px" wrap="Wrap" items="{
                                 path: 'tags',
-                                parameters: {
-                                    expand: 'tag'
-                                },
                                 templateShareable: false
                             }">
                                 <items>
@@ -98,7 +102,7 @@
                 items="{
                     path: '/Tasks',
                     parameters: {
-                        expand: 'type,tags'
+                        expand: 'type,tags($expand=tag)'
                     },
                     templateShareable: false,
                     filters: {
@@ -156,9 +160,6 @@
                             />
                             <HBox id="_IDGenHBox3" gap="10px" wrap="Wrap" items="{
                                 path: 'tags',
-                                parameters: {
-                                    expand: 'tag'
-                                },
                                 templateShareable: false
                             }">
                                 <items>
@@ -176,7 +177,7 @@
                 items="{
                     path: '/Tasks',
                     parameters: {
-                        expand: 'type,tags'
+                        expand: 'type,tags($expand=tag)'
                     },
                     templateShareable: false,
                     filters: {
@@ -233,9 +234,6 @@
                             />
                             <HBox id="_IDGenHBox4" gap="10px" wrap="Wrap" items="{
                                 path: 'tags',
-                                parameters: {
-                                    expand: 'tag'
-                                },
                                 templateShareable: false
                             }">
                                 <items>

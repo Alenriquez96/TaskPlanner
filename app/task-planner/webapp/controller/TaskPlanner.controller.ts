@@ -8,12 +8,15 @@ import ODataModel from "sap/ui/model/odata/v2/ODataModel";
 import { ListItemBase$PressEvent } from "sap/m/ListItemBase";
 import Router from "sap/f/routing/Router";
 import FlexibleColumnLayout from "sap/f/FlexibleColumnLayout";
+import { Button$PressEvent } from "sap/m/Button";
+import Fragment from "sap/ui/core/Fragment";
+import Dialog, { Dialog$AfterCloseEvent } from "sap/m/Dialog";
 
 /**
  * @namespace task.planner.taskplanner.controller
  */
 export default class TaskPlanner extends Controller {
-  /*eslint-disable @typescript-eslint/no-empty-function*/
+  private newTaskDialog: Dialog | null = null;
   public onInit(): void {}
 
   public onDrop(oEvent: DropInfo$DropEvent): void {
@@ -69,5 +72,31 @@ export default class TaskPlanner extends Controller {
     router.navTo("RouteTaskPlannerDetail", {
       taskId: oEvent.getSource().getBindingContext()?.getProperty("ID"),
     });
+  }
+
+  public async onNewTask(oEvent: Button$PressEvent): Promise<void> {
+    if (!this.newTaskDialog) {
+      this.newTaskDialog = (await Fragment.load({
+        name: "task.planner.taskplanner.view.fragments.NewTask",
+        controller: this,
+        type: "XML",
+      })) as Dialog;
+
+      this.getView()?.addDependent(this.newTaskDialog);
+    }
+    this.newTaskDialog.open();
+  }
+
+  public onCancelPress(oEvent: Button$PressEvent): void {
+    if (this.newTaskDialog) {
+      this.newTaskDialog.close();
+    }
+  }
+
+  public onAfterClose(oEvent: Dialog$AfterCloseEvent): void {
+    if (this.newTaskDialog) {
+      this.newTaskDialog.destroy();
+      this.newTaskDialog = null;
+    }
   }
 }
