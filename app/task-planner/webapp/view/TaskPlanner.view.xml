@@ -8,6 +8,9 @@
 	xmlns:dnd="sap.ui.core.dnd"
 	xmlns:dnd-grid="sap.f.dnd"
     busyIndicatorDelay="0"
+    core:require="{
+        Formatter: 'task/planner/taskplanner/model/formatters'
+    }"
     >
     <Page id="page" title="{i18n>title}" >
         <HBox id="_IDGenHBox" justifyContent="SpaceAround" gap="20px" wrap="Wrap" class="sapUiSmallMargin">
@@ -49,7 +52,7 @@
                         counter="1"
                         highlight="{
                             path: 'status_ID', 
-                            formatter: '.statusTask'
+                            formatter: 'Formatter.statusTask'
                         }"
                         type="Navigation"
                         unread="false"
@@ -65,11 +68,11 @@
                             <ObjectStatus id="_IDGenObjectStatus1"
                                 text="Priority: {
                                     path: 'priority',
-                                    formatter: '.priorityTextFormatter'
+                                    formatter: 'Formatter.priorityTextFormatter'
                                 }"
                                 state="{
                                     path: 'priority',
-                                    formatter: '.priorityFormatter'
+                                    formatter: 'Formatter.priorityFormatter'
                                 }"
                             />
                             <HBox id="_IDGenHBox2" gap="10px" wrap="Wrap" items="{
@@ -128,7 +131,7 @@
                         counter="1"
                         highlight="{
                             path: 'status_ID', 
-                            formatter: '.statusTask'
+                            formatter: 'Formatter.statusTask'
                         }"                        
                         type="Navigation"
                         unread="false"
@@ -144,11 +147,11 @@
                             <ObjectStatus id="_IDGenObjectStatus2"
                                 text="Priority: {
                                     path: 'priority',
-                                    formatter: '.priorityTextFormatter'
+                                    formatter: 'Formatter.priorityTextFormatter'
                                 }"
                                 state="{
                                     path: 'priority',
-                                    formatter: '.priorityFormatter'
+                                    formatter: 'Formatter.priorityFormatter'
                                 }"
                             />
                             <HBox id="_IDGenHBox3" gap="10px" wrap="Wrap" items="{
@@ -205,7 +208,7 @@
                         counter="1"
                         highlight="{
                             path: 'status_ID', 
-                            formatter: '.statusTask'
+                            formatter: 'Formatter.statusTask'
                         }"                        
                         type="Navigation"
                         unread="false"
@@ -221,11 +224,11 @@
                             <ObjectStatus id="_IDGenObjectStatus3"
                                 text="Priority: {
                                     path: 'priority',
-                                    formatter: '.priorityTextFormatter'
+                                    formatter: 'Formatter.priorityTextFormatter'
                                 }"
                                 state="{
                                     path: 'priority',
-                                    formatter: '.priorityFormatter'
+                                    formatter: 'Formatter.priorityFormatter'
                                 }"
                             />
                             <HBox id="_IDGenHBox4" gap="10px" wrap="Wrap" items="{

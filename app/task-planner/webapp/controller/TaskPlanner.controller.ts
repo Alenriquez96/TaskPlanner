@@ -58,69 +58,6 @@ export default class TaskPlanner extends Controller {
     oModel.refresh(true);
   }
 
-  public statusTask(status: int | string): MessageType {
-    if (status) {
-      if (typeof status === "string") {
-        status = parseInt(status, 10);
-      }
-      switch (status) {
-        case 1:
-          return MessageType.Information;
-        case 2:
-          return MessageType.Warning;
-        case 3:
-          return MessageType.Success;
-        case 4:
-          return MessageType.Error;
-        case 5:
-          return MessageType.Warning;
-        case 6:
-          return MessageType.Error;
-        case 7:
-          return MessageType.Information;
-        default:
-          return MessageType.None;
-      }
-    }
-    return MessageType.None;
-  }
-
-  public priorityFormatter(priority: int): ValueState {
-    if (priority) {
-      switch (priority) {
-        case 1:
-          return ValueState.Success; // Low
-        case 2:
-          return ValueState.Information; // Medium
-        case 3:
-          return ValueState.Warning; // High
-        case 4:
-          return ValueState.Error; // Critical
-        default:
-          return ValueState.None; // Default case
-      }
-    }
-    return ValueState.None;
-  }
-
-  public priorityTextFormatter(priority: int): string {
-    if (priority) {
-      switch (priority) {
-        case 1:
-          return "Low";
-        case 2:
-          return "Medium";
-        case 3:
-          return "High";
-        case 4:
-          return "Critical";
-        default:
-          return "Unknown";
-      }
-    }
-    return "Unknown";
-  }
-
   /**
    * onTaskPress
    */

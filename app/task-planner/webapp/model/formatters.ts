@@ -1,7 +1,8 @@
+import { ValueState } from "sap/ui/core/library";
 import MessageType from "sap/ui/core/message/MessageType";
 
 export default {
-  statusTask: function (status: string): string | undefined {
+  statusTask(status: int | string): MessageType {
     /**
     1,To Do,Tasks that are yet to be started
     2,In Progress,Tasks that are currently being worked on
@@ -12,25 +13,62 @@ export default {
     7,Review,Tasks that are awaiting review or approval
     */
     if (status) {
+      if (typeof status === "string") {
+        status = parseInt(status, 10);
+      }
       switch (status) {
-        case "1":
-          return MessageType.None;
-        case "2":
+        case 1:
           return MessageType.Information;
-        case "3":
-          return MessageType.Success;
-        case "4":
-          return MessageType.Error;
-        case "5":
+        case 2:
           return MessageType.Warning;
-        case "6":
+        case 3:
+          return MessageType.Success;
+        case 4:
           return MessageType.Error;
-        case "7":
+        case 5:
+          return MessageType.Warning;
+        case 6:
+          return MessageType.Error;
+        case 7:
           return MessageType.Information;
         default:
           return MessageType.None;
       }
     }
     return MessageType.None;
+  },
+  priorityFormatter(priority: int): ValueState {
+    if (priority) {
+      switch (priority) {
+        case 1:
+          return ValueState.Success; // Low
+        case 2:
+          return ValueState.Information; // Medium
+        case 3:
+          return ValueState.Warning; // High
+        case 4:
+          return ValueState.Error; // Critical
+        default:
+          return ValueState.None; // Default case
+      }
+    }
+    return ValueState.None;
+  },
+  priorityTextFormatter(priority: int): string {
+    if (priority) {
+      switch (priority) {
+        case 1:
+          return "Low";
+        case 2:
+          return "Medium";
+        case 3:
+          return "High";
+        case 4:
+          return "Critical";
+        default:
+          return "Unknown";
+      }
+    }
+    return "Unknown";
   },
 };
