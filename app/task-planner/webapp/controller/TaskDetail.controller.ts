@@ -1,3 +1,4 @@
+import Log from "sap/base/Log";
 import FlexibleColumnLayout from "sap/f/FlexibleColumnLayout";
 import Router from "sap/f/routing/Router";
 import { Button$PressEvent } from "sap/m/Button";
@@ -98,7 +99,7 @@ export default class TaskDetail extends Controller {
         error: (err: Error) => {
           this.getView()?.setBusy(false);
           MessageBox.error("Error deleting task: " + err.message);
-          console.error("Error deleting task:", err);
+          Log.error("Error deleting task:", err);
         },
       });
     }

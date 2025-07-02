@@ -15,20 +15,59 @@
      <content>
         <form:SimpleForm id="_IDGenSimpleForm2" >
             <form:content>
-                <Label id="_IDGenLabel6" text="Title"/>
-                <Input id="taskTitleInput" value="{task>/title}" required="true" placeholder="Introduce a title..."/>
+                <Label id="_IDGenLabel6" text="Title" required="{newTask>/title/required}"/>
+                <Input 
+                    id="taskTitleInput" 
+                    value="{newTask>/title/value}" 
+                    required="{newTask>/title/required}" 
+                    valueState="{newTask>/title/valueState}" 
+                    placeholder="Introduce a title..."
+                />
 
-                <Label id="_IDGenLabel10" text="Description" />
-                <TextArea id="taskDescriptionInput" value="{task>/description}" rows="4" placeholder="Introduce a description for the task..."/>
+                <Label id="_IDGenLabel10" text="Description" required="{newTask>/description/required}"/>
+                <TextArea 
+                    id="taskDescriptionInput" 
+                    value="{newTask>/description/value}" 
+                    required="{newTask>/description/required}" 
+                    valueState="{newTask>/description/valueState}"
+                    rows="4" 
+                    placeholder="Introduce a description for the task..."
+                />
 
-                <Label id="_IDGenLabel11" text="Due Date"/>
-                <DatePicker id="taskDueDateInput" value="{task>/dueDate}" displayFormat="dd/MM/yyyy"/>
+                <Label id="_IDGenLabel11" text="Due Date" required="{newTask>/dueDate/required}"/>
+                <DatePicker 
+                    id="taskDueDateInput" 
+                    value="{newTask>/dueDate/value}"
+                    required="{newTask>/dueDate/required}"
+                    valueState="{newTask>/dueDate/valueState}" 
+                    displayFormat="dd/MM/yyyy"
+                />
 
-                <Label id="_IDGenLabel12" text="Priority"/>
-                <Select id="taskPriorityInput" selectedKey="{task>/priority}">
-                    <core:Item id="_IDGenItem" key="Low" text="Low"/>
-                    <core:Item id="_IDGenItem1" key="Medium" text="Medium"/>
-                    <core:Item id="_IDGenItem2" key="High" text="High"/>
+                <Label id="_IDGenLabel12" text="Priority" required="{newTask>/priority/required}"/>
+                <Select 
+                    id="taskPriorityInput" 
+                    forceSelection="true"
+                    selectedKey="{newTask>/priority/value}" 
+                    valueState="{newTask>/priority/valueState}" 
+                    items="{priorityModel>/}"
+                >
+                    <items>
+                        <core:Item id="_IDGenItem" key="{priorityModel>key}" text="{priorityModel>title}"/>
+                    </items>
+                </Select>
+
+                <Label id="_IDGenLabel14" text="Type" required="{newTask>/type/required}"/>
+                <Select 
+                    id="_IDGenSelect" 
+                    selectedKey="{newTask>/type/value}" 
+                    valueState="{newTask>/type/valueState}"
+                    items="{
+                        path: '/TaskTypes'
+                    }"
+                >
+                    <items>
+                        <core:ListItem id="_IDGenItem1" key="{ID}" text="{name}" icon="sap-icon://add-product"/>
+                    </items>
                 </Select>
             </form:content>
         </form:SimpleForm>

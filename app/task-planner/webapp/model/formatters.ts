@@ -70,6 +70,8 @@ export default {
         case 3:
           return "High";
         case 4:
+          return "Urgent";
+        case 5:
           return "Critical";
         default:
           return "Unknown";

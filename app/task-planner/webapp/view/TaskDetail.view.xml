@@ -78,6 +78,14 @@
                     }"
                     />
                 </VBox>
+                <VBox id="_IDGenVBox7" >
+                    <Label id="_IDGenLabel13" text="Type"/>
+                    <ObjectStatus id="_IDGenObjectStatus6"
+                        text="{
+                            path: 'type/name'
+                        }"
+                    />
+                </VBox>
             </FlexBox>
         </uxap:headerContent>
         <uxap:sections>

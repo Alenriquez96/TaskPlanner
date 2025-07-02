@@ -24,6 +24,11 @@
             <f:GridList
                 id="gridListToDo"
                 width="auto"
+                noDataText="No tasks to do"
+                growing="true"
+                growingDirection="Downwards"
+                growingScrollToLoad="true"
+                growingThreshold="10"
                 items="{
                     path: '/Tasks',
                     parameters: {
@@ -37,9 +42,9 @@
                     }
                 }">
                 <f:headerToolbar>
-                    <tnt:ToolHeader id="_IDGenToolHeader1" >
-                        <Text id="_IDGenText" text="To Do"/>
+                    <tnt:ToolHeader id="_IDGenToolHeader1">
                         <core:Icon id="_IDGenIcon" src="sap-icon://activities"/>
+                        <Text id="_IDGenText" text="To Do"/>
                     </tnt:ToolHeader>
                 </f:headerToolbar>
                 <f:customData>
@@ -65,9 +70,9 @@
                         unread="false"
                         press=".onTaskPress"
                         >
-                        <VBox id="_IDGenVBox2" height="100%" width="100%" class="sapUiSmallMargin">
+                        <VBox id="_IDGenVBox2" wrap="Wrap" height="100%" width="100%" class="sapUiSmallMargin" gap="1rem">
                             <layoutData>
-                                <FlexItemData id="_IDGenFlexItemData1"  growFactor="1" shrinkFactor="0" />
+                                <FlexItemData id="_IDGenFlexItemData1"  growFactor="1" shrinkFactor="0"/>
                             </layoutData>
 
                             <Title id="_IDGenTitle1"  text="{title}" wrapping="true" />
@@ -90,6 +95,7 @@
                                     <GenericTag id="_IDGenGenericTag" text="{tag/name}"/>
                                 </items>
                             </HBox>
+                            <ObjectStatus id="_IDGenObjectStatus5" title="Type" inverted="true" icon="sap-icon://add-product" text="{type/name}"/>
                         </VBox>
                     </f:GridListItem>
                 </f:items>
@@ -99,6 +105,11 @@
             <f:GridList
                 id="gridListInProgress"
                 width="auto"
+                noDataText="No tasks in progress"
+                growing="true"
+                growingDirection="Downwards"
+                growingScrollToLoad="true"
+                growingThreshold="10"
                 items="{
                     path: '/Tasks',
                     parameters: {
@@ -113,8 +124,8 @@
                 }">
                 <f:headerToolbar>
                     <tnt:ToolHeader id="_IDGenToolHeader2" >
-                        <Text id="_IDGenText1" text="In Progress"/>
                         <core:Icon id="_IDGenIcon1" src="sap-icon://activity-individual"/>
+                        <Text id="_IDGenText1" text="In Progress"/>
                     </tnt:ToolHeader>
                 </f:headerToolbar>
                 <f:customData>
@@ -141,7 +152,7 @@
                         unread="false"
                         press=".onTaskPress"
                     >
-                        <VBox id="_IDGenVBox" height="100%" width="100%" class="sapUiSmallMargin">
+                        <VBox id="_IDGenVBox" wrap="Wrap" height="100%" width="100%" class="sapUiSmallMargin" gap="1rem">
                             <layoutData>
                                 <FlexItemData id="_IDGenFlexItemData" growFactor="1" shrinkFactor="0" />
                             </layoutData>
@@ -166,6 +177,7 @@
                                     <GenericTag id="_IDGenGenericTag1" text="{name}"/>
                                 </items>
                             </HBox>
+                            <ObjectStatus id="_IDGenObjectStatus7" title="Type" inverted="true" icon="sap-icon://add-product" text="{type/name}"/>
                         </VBox>
                     </f:GridListItem>
                 </f:items>
@@ -174,6 +186,11 @@
             <f:GridList
                 id="gridListCompleted"
                 width="auto"
+                noDataText="No completed tasks"
+                growing="true"
+                growingDirection="Downwards"
+                growingScrollToLoad="true"
+                growingThreshold="10"
                 items="{
                     path: '/Tasks',
                     parameters: {
@@ -188,8 +205,8 @@
                 }">
                 <f:headerToolbar>
                     <tnt:ToolHeader id="_IDGenToolHeader3" >
-                        <Text id="_IDGenText2" text="Done"/>
                         <core:Icon id="_IDGenIcon2" src="sap-icon://task"/>
+                        <Text id="_IDGenText2" text="Done"/>
                     </tnt:ToolHeader>
                 </f:headerToolbar>
                 <f:customData>
@@ -215,7 +232,7 @@
                         unread="false"
                         press=".onTaskPress"
                         >
-                        <VBox id="_IDGenVBox4"  height="100%" width="100%" class="sapUiSmallMargin">
+                        <VBox id="_IDGenVBox4" wrap="Wrap" height="100%" width="100%" class="sapUiSmallMargin" gap="1rem">
                             <layoutData>
                                 <FlexItemData id="_IDGenFlexItemData2"  growFactor="1" shrinkFactor="0" />
                             </layoutData>
@@ -240,6 +257,7 @@
                                     <GenericTag id="_IDGenGenericTag2" text="{name}"/>
                                 </items>
                             </HBox>
+                            <ObjectStatus id="_IDGenObjectStatus8" title="Type" inverted="true" icon="sap-icon://add-product" text="{type/name}"/>
                         </VBox>
                     </f:GridListItem>
                 </f:items>
