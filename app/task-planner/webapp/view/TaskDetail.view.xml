@@ -119,6 +119,57 @@
                     </uxap:ObjectPageSubSection>
                 </uxap:subSections>
             </uxap:ObjectPageSection>
+            <uxap:ObjectPageSection id="_IDGenObjectPageSection3" title="Comments" >
+                <uxap:subSections>
+                    <uxap:ObjectPageSubSection id="_IDGenObjectPageSubSection2" >
+                        <VBox id="_IDGenVBox5" gap="1rem">
+                            <FeedInput 
+                                id="_IDGenFeedInput"
+                                showIcon="true"
+                                growing="true"
+                                post=".onPostComment"
+                                placeholder="Add a comment..."
+                            />
+                            <List 
+                                id="_IDGenList2" 
+                                items="{
+                                    path: 'comments',
+                                    templateShareable: false,
+                                    sorter: {
+                                        path: 'createdAt',
+                                        descending: true
+                                    }
+                                }"
+                                noDataText="No comments yet"
+                                visible="{= ${comments}.length > 0 ? true : false }"
+                            >
+                                <items>
+                                    <FeedListItem 
+                                        id="_IDGenFeedListItem" 
+                                        type="Inactive" 
+                                        info="Comment" 
+                                        sender="Alice" 
+                                        timestamp="{createdAt}" 
+                                        text="{comment}"
+                                        showIcon="true"
+                                        maxCharacters="1000"
+                                        actions="{commentsActions>/}"
+                                    >
+                                        <actions>
+                                            <FeedListItemAction 
+                                                id="_IDGenFeedListItemAction" 
+                                                key="{commentsActions>key}" 
+                                                text="{commentsActions>text}"
+                                                icon="{commentsActions>icon}"
+                                            />
+                                        </actions>
+                                    </FeedListItem>
+                                </items>
+                            </List>
+                        </VBox>
+                    </uxap:ObjectPageSubSection>
+                </uxap:subSections>
+            </uxap:ObjectPageSection>
         </uxap:sections>
         
     </uxap:ObjectPageLayout>

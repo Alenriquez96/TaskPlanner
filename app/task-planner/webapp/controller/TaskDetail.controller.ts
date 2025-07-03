@@ -2,6 +2,7 @@ import Log from "sap/base/Log";
 import FlexibleColumnLayout from "sap/f/FlexibleColumnLayout";
 import Router from "sap/f/routing/Router";
 import { Button$PressEvent } from "sap/m/Button";
+import { FeedInput$PostEvent } from "sap/m/FeedInput";
 import MessageBox from "sap/m/MessageBox";
 import MessageToast from "sap/m/MessageToast";
 import Controller from "sap/ui/core/mvc/Controller";
@@ -32,6 +33,27 @@ export default class TaskDetail extends Controller {
         isFullScreen: false,
       }),
       "UI"
+    );
+
+    this.getView()?.setModel(
+      new JSONModel([
+        {
+          key: "delete",
+          text: "Delete",
+          icon: "sap-icon://delete",
+        },
+        {
+          key: "share",
+          text: "Share",
+          icon: "sap-icon://share-2",
+        },
+        {
+          key: "edit",
+          text: "Edit",
+          icon: "sap-icon://edit",
+        },
+      ]),
+      "commentsActions"
     );
   }
 
@@ -128,6 +150,31 @@ export default class TaskDetail extends Controller {
         "/isFullScreen",
         false
       );
+    }
+  }
+
+  public onPostComment(oEvent: FeedInput$PostEvent) {
+    const commentValue = oEvent.getParameter("value");
+    if (commentValue && commentValue.trim().length) {
+      const oModel = this.getView()?.getModel() as ODataModel;
+      const oContext = this.getView()?.getBindingContext();
+      const path = oContext?.getPath();
+      if (oModel && oContext && path) {
+        const newComment = {
+          comment: commentValue,
+        };
+
+        oModel.create(`${path}/comments`, newComment, {
+          success: () => {
+            MessageToast.show("Comment added successfully");
+            oEvent.reset(); // Clear the input field
+          },
+          error: (err: Error) => {
+            Log.error("Error adding comment:", err);
+            MessageBox.error("Error adding comment: " + err.message);
+          },
+        });
+      }
     }
   }
 }

@@ -10,6 +10,7 @@ entity Tasks: cuid, managed {
     severity: Integer @cds.validation.range : [1, 5]; // 1 to 5 scale
     tags: Association to many TasksTags on tags.task.ID = $self.ID;
     type: Association to one TaskTypes;
+    comments: Composition of many Comments on comments.task = $self;
 }
 
 entity TaskStatuses {
@@ -33,4 +34,9 @@ entity TaskTypes {
     key ID : Integer;
     name  : String(255);
     descr : String(1000);
+}
+
+entity Comments : cuid, managed {
+    comment: String(1000);
+    task: Association to one Tasks;
 }

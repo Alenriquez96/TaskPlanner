@@ -1,0 +1,162 @@
+@server=http://localhost:4004
+@username=alice
+@password=
+
+
+### Tasks
+# @name Tasks_GET
+GET {{server}}/odata/v4/task/Tasks
+Authorization: Basic {{username}} {{password}}
+
+
+### Tasks
+# @name Tasks_POST
+POST {{server}}/odata/v4/task/Tasks
+Content-Type: application/json
+Authorization: Basic {{username}} {{password}}
+
+{
+  "ID": "17969236-defe-4c5e-b8aa-66f4663ea05d",
+  "title": "title-17969236",
+  "description": "description-17969236",
+  "dueDate": "2007-08-10T23:00:00.000Z",
+  "priority": 93,
+  "severity": 50,
+  "type": {
+    "ID": 19650385
+  },
+  "comments": [
+    {
+      "comment": "comment-9611754",
+      "createdAt": "2022-03-20T23:00:00.000Z",
+      "createdBy": "createdBy.5q0h6@example.com",
+      "modifiedAt": "2017-05-16T23:00:00.000Z",
+      "modifiedBy": "modifiedBy.5q0h6@example.org"
+    }
+  ],
+  "createdAt": "2019-08-31T23:00:00.000Z",
+  "createdBy": "createdBy.ap55g@example.com",
+  "modifiedAt": "2004-09-23T23:00:00.000Z",
+  "modifiedBy": "modifiedBy.ap55g@example.net"
+}
+
+
+### Tasks
+# @name Tasks_PATCH
+PATCH {{server}}/odata/v4/task/Tasks/17969236-defe-4c5e-b8aa-66f4663ea05d
+Content-Type: application/json
+Authorization: Basic {{username}} {{password}}
+
+{
+  "ID": "17969236-defe-4c5e-b8aa-66f4663ea05d",
+  "title": "title-17969236",
+  "description": "description-17969236",
+  "dueDate": "2007-08-10T23:00:00.000Z",
+  "priority": 93,
+  "severity": 50,
+  "type": {
+    "ID": 19650385
+  },
+  "comments": [
+    {
+      "comment": "comment-9611754",
+      "createdAt": "2022-03-20T23:00:00.000Z",
+      "createdBy": "createdBy.5q0h6@example.com",
+      "modifiedAt": "2017-05-16T23:00:00.000Z",
+      "modifiedBy": "modifiedBy.5q0h6@example.org"
+    }
+  ],
+  "createdAt": "2019-08-31T23:00:00.000Z",
+  "createdBy": "createdBy.ap55g@example.com",
+  "modifiedAt": "2004-09-23T23:00:00.000Z",
+  "modifiedBy": "modifiedBy.ap55g@example.net"
+}
+
+
+### Tasks
+# @name Tasks_DELETE
+DELETE {{server}}/odata/v4/task/Tasks/17969236-defe-4c5e-b8aa-66f4663ea05d
+Content-Type: application/json
+Authorization: Basic {{username}} {{password}}
+
+
+### TaskTypes
+# @name TaskTypes_GET
+GET {{server}}/odata/v4/task/TaskTypes
+Authorization: Basic {{username}} {{password}}
+
+
+### TaskTypes
+# @name TaskTypes_POST
+POST {{server}}/odata/v4/task/TaskTypes
+Content-Type: application/json
+Authorization: Basic {{username}} {{password}}
+
+{
+  "ID": 19650385,
+  "name": "name-19650385",
+  "descr": "descr-19650385"
+}
+
+
+### TaskTypes
+# @name TaskTypes_PATCH
+PATCH {{server}}/odata/v4/task/TaskTypes/19650385
+Content-Type: application/json
+Authorization: Basic {{username}} {{password}}
+
+{
+  "ID": 19650385,
+  "name": "name-19650385",
+  "descr": "descr-19650385"
+}
+
+
+### TaskTypes
+# @name TaskTypes_DELETE
+DELETE {{server}}/odata/v4/task/TaskTypes/19650385
+Content-Type: application/json
+Authorization: Basic {{username}} {{password}}
+
+
+### Comments
+# @name Comments_GET
+GET {{server}}/odata/v4/task/Comments
+Authorization: Basic {{username}} {{password}}
+
+
+### Comments
+# @name Comments_POST
+POST {{server}}/odata/v4/task/Comments
+Content-Type: application/json
+Authorization: Basic {{username}} {{password}}
+
+{
+  "comment": "comment-9611754",
+  "createdAt": "2022-03-20T23:00:00.000Z",
+  "createdBy": "createdBy.5q0h6@example.com",
+  "modifiedAt": "2017-05-16T23:00:00.000Z",
+  "modifiedBy": "modifiedBy.5q0h6@example.org"
+}
+
+
+### Comments
+# @name Comments_PATCH
+PATCH {{server}}/odata/v4/task/Comments/[object Object]
+Content-Type: application/json
+Authorization: Basic {{username}} {{password}}
+
+{
+  "comment": "comment-9611754",
+  "createdAt": "2022-03-20T23:00:00.000Z",
+  "createdBy": "createdBy.5q0h6@example.com",
+  "modifiedAt": "2017-05-16T23:00:00.000Z",
+  "modifiedBy": "modifiedBy.5q0h6@example.org"
+}
+
+
+### Comments
+# @name Comments_DELETE
+DELETE {{server}}/odata/v4/task/Comments/[object Object]
+Content-Type: application/json
+Authorization: Basic {{username}} {{password}}
