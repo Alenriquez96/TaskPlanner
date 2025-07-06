@@ -11,6 +11,8 @@ entity Tasks: cuid, managed {
     tags: Association to many TasksTags on tags.task.ID = $self.ID;
     type: Association to one TaskTypes;
     comments: Composition of many Comments on comments.task = $self;
+    startDate: DateTime;
+    completedAt: DateTime;
 }
 
 entity TaskStatuses {

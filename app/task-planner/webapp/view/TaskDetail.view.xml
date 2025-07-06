@@ -22,6 +22,7 @@
                     <Button id="_IDGenButton1" text="Delete" type="Negative" press="onDeleteTask"/>
                     <Button id="_IDGenButton2" text="Edit" icon="sap-icon://edit" type="Emphasized" />
                     <Button id="_IDGenButton3" text="Progress" icon="sap-icon://arrow-down" type="Accept" />
+                    <Button id="_IDGenButton4" text="Export" icon="sap-icon://download" type="Neutral" press=".onExportTask"/>
                 </uxap:actions>
                 <uxap:navigationActions>
                     <OverflowToolbarButton 
@@ -99,19 +100,30 @@
                                 <Label id="_IDGenLabel8"  text="Description"/>
                                 <Text id="_IDGenText4"  text="{description}"/>
                                 <Label id="_IDGenLabel9"  text="Due Date"/>
-                                <Text id="_IDGenText5"  text="{dueDate}"/>
+                                <Text id="_IDGenText5"  text="{
+                                    path: 'dueDate',
+                                    formatter: 'Formatter.longDateFormatter'    
+                                }"/>
                             </form:content>
                         </form:SimpleForm>
                     </uxap:ObjectPageSubSection>
                 </uxap:subSections>
             </uxap:ObjectPageSection>
-            <uxap:ObjectPageSection id="_IDGenObjectPageSection1" title="Tags" visible="{= ${tags}.length > 0 ? true : false }">
+            <uxap:ObjectPageSection id="_IDGenObjectPageSection1" title="Tags">
                 <uxap:subSections>
                     <uxap:ObjectPageSubSection id="_IDGenObjectPageSubSection" >
                         <List id="_IDGenList" noDataText="No tags" items="{
                             path: 'tags',
                             templateShareable: false
                         }">
+                            <headerToolbar>
+                                <OverflowToolbar id="_IDGenOverflowToolbar2" >
+                                    <ToolbarSpacer id="_IDGenToolbarSpacer" />
+                                    <content>
+                                        <Button id="_IDGenButton5" text="Add Tag" type="Emphasized" press=".onAddTag"/>
+                                    </content>
+                                </OverflowToolbar>
+                            </headerToolbar>
                             <items>
                                 <StandardListItem id="_IDGenStandardListItem" wrapping="true" description="{tag/descr}" infoState="Information" title="{tag/name}"/>
                             </items>
@@ -149,7 +161,10 @@
                                         type="Inactive" 
                                         info="Comment" 
                                         sender="Alice" 
-                                        timestamp="{createdAt}" 
+                                        timestamp="{
+                                            path:'createdAt',
+                                            formatter: 'Formatter.longDateFormatter'
+                                        }" 
                                         text="{comment}"
                                         showIcon="true"
                                         maxCharacters="1000"
@@ -161,6 +176,7 @@
                                                 key="{commentsActions>key}" 
                                                 text="{commentsActions>text}"
                                                 icon="{commentsActions>icon}"
+                                                press=".onCommentActionPress"
                                             />
                                         </actions>
                                     </FeedListItem>
