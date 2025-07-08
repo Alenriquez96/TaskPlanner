@@ -5,7 +5,11 @@
     xmlns="sap.f">
     <!-- <App id="app">
     </App> -->
-    <FlexibleColumnLayout id="flexibleColumnLayout" backgroundDesign="Solid" layout="OneColumn">
+    <FlexibleColumnLayout 
+      id="flexibleColumnLayout"
+      backgroundDesign="Solid" 
+      stateChange=".onStateChanged" 
+      layout="{layoutModel>/layout}">
 		<beginColumnPages>
 			<mvc:XMLView id="beginView" viewName="task.planner.taskplanner.view.TaskPlanner"/>
 		</beginColumnPages>

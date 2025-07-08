@@ -92,13 +92,17 @@
       "routes": [
         {
           "name": "RouteTaskPlanner",
-          "pattern": ":?query:",
-          "target": ["TargetTaskPlanner"]
+          "pattern": ":layout:",
+          "target": [
+            "TargetTaskPlanner"
+          ]
         },
         {
           "name": "RouteTaskPlannerDetail",
-          "pattern": "task/{taskId}",
-          "target": ["TargetTaskPlannerDetail"]
+          "pattern": "task/{taskId}/{layout}",
+          "target": [
+            "TargetTaskPlannerDetail"
+          ]
         }
       ],
       "targets": {

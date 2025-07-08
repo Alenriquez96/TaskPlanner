@@ -1,5 +1,6 @@
 import Log from "sap/base/Log";
 import FlexibleColumnLayout from "sap/f/FlexibleColumnLayout";
+import { LayoutType } from "sap/f/library";
 import Router from "sap/f/routing/Router";
 import Button, { Button$PressEvent } from "sap/m/Button";
 import ComboBox from "sap/m/ComboBox";
@@ -83,15 +84,10 @@ export default class TaskDetail extends Controller {
    * Handler for the close button in the detail view.
    */
   public handleClose(): void {
-    const fcl = this.getView()
-      ?.getParent()
-      ?.getParent() as FlexibleColumnLayout;
-    if (fcl && fcl.getLayout() === "TwoColumnsMidExpanded") {
-      fcl.setLayout("OneColumn");
-    }
-
     if (this.oRouter && this.oRouter.getRoute("RouteTaskPlanner")) {
-      this.oRouter.navTo("RouteTaskPlanner", {}, true);
+      this.oRouter.navTo("RouteTaskPlanner", {
+        layout: LayoutType.OneColumn,
+      }, true);
     }
   }
 

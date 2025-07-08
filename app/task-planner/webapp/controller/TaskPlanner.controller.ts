@@ -14,6 +14,7 @@ import Dialog, { Dialog$AfterCloseEvent } from "sap/m/Dialog";
 import JSONModel from "sap/ui/model/json/JSONModel";
 import { ValueState } from "sap/ui/core/library";
 import Log from "sap/base/Log";
+import { LayoutType } from "sap/f/library";
 
 interface TaskData {
   title: string;
@@ -114,6 +115,7 @@ export default class TaskPlanner extends Controller {
     }
     router.navTo("RouteTaskPlannerDetail", {
       taskId: oEvent.getSource().getBindingContext()?.getProperty("ID"),
+      layout: LayoutType.TwoColumnsMidExpanded
     });
   }
 
