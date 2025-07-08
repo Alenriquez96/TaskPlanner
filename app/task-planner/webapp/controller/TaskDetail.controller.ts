@@ -27,6 +27,7 @@ import ODataModel from "sap/ui/model/odata/v2/ODataModel";
  */
 export default class TaskDetail extends Controller {
   private oRouter: Router;
+  private taskId?: string;
   public onInit(): void | undefined {
     const oOwnerComponent = this.getOwnerComponent();
 
@@ -68,11 +69,10 @@ export default class TaskDetail extends Controller {
   }
 
   private onRouteMatched(oEvent: Route$PatternMatchedEvent): void {
-    const taskID = (oEvent.getParameter("arguments") as { taskId?: string })
-      .taskId;
-    if (taskID) {
+    this.taskId = (oEvent.getParameter("arguments") as { taskId?: string }).taskId;
+    if (this.taskId) {
       this.getView()?.bindElement({
-        path: `/Tasks(${taskID})`,
+        path: `/Tasks(${this.taskId})`,
         parameters: {
           expand: "status,type,tags($expand=tag)",
         },
@@ -85,6 +85,7 @@ export default class TaskDetail extends Controller {
    */
   public handleClose(): void {
     if (this.oRouter && this.oRouter.getRoute("RouteTaskPlanner")) {
+      (this.getView()?.getModel("UI") as JSONModel)?.setProperty("/isFullScreen",false);
       this.oRouter.navTo("RouteTaskPlanner", {
         layout: LayoutType.OneColumn,
       }, true);
@@ -133,28 +134,22 @@ export default class TaskDetail extends Controller {
   }
 
   public handleFullScreen(oEvent: Button$PressEvent): void {
-    const fcl = this.getView()
-      ?.getParent()
-      ?.getParent() as FlexibleColumnLayout;
-    if (fcl) {
-      fcl.setLayout("MidColumnFullScreen");
-      (this.getView()?.getModel("UI") as JSONModel)?.setProperty(
-        "/isFullScreen",
-        true
-      );
+    if (this.oRouter) {
+      (this.getView()?.getModel("UI") as JSONModel)?.setProperty("/isFullScreen",true);
+      this.oRouter.navTo("RouteTaskPlannerDetail", {
+        taskId: this.taskId,
+        layout: LayoutType.MidColumnFullScreen,
+      }, true);
     }
   }
 
   public handleExitFullScreen(oEvent: Button$PressEvent): void {
-    const fcl = this.getView()
-      ?.getParent()
-      ?.getParent() as FlexibleColumnLayout;
-    if (fcl) {
-      fcl.setLayout("TwoColumnsMidExpanded");
-      (this.getView()?.getModel("UI") as JSONModel)?.setProperty(
-        "/isFullScreen",
-        false
-      );
+    if (this.oRouter) {
+      (this.getView()?.getModel("UI") as JSONModel)?.setProperty("/isFullScreen",false);
+      this.oRouter.navTo("RouteTaskPlannerDetail", {
+        taskId: this.taskId,
+        layout: LayoutType.TwoColumnsMidExpanded,
+      }, true);
     }
   }
 
