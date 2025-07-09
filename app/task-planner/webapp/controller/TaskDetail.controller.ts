@@ -13,6 +13,7 @@ import MessageToast from "sap/m/MessageToast";
 import TextArea, { TextArea$LiveChangeEvent } from "sap/m/TextArea";
 import VBox from "sap/m/VBox";
 import Item from "sap/ui/core/Item";
+import ListItem from "sap/ui/core/ListItem";
 import Controller from "sap/ui/core/mvc/Controller";
 import { Route$PatternMatchedEvent } from "sap/ui/core/routing/Route";
 import UIComponent from "sap/ui/core/UIComponent";
@@ -42,6 +43,7 @@ export default class TaskDetail extends Controller {
     this.getView()?.setModel(
       new JSONModel({
         isFullScreen: false,
+        isEditMode: false
       }),
       "UI"
     );
@@ -68,6 +70,12 @@ export default class TaskDetail extends Controller {
     );
   }
 
+  /**
+   * Handler for the route matched event. It gets triggered when the route for the task detail view is matched.
+   * This method retrieves the task ID from the route parameters and binds the view to the corresponding task.
+   * If the task ID is present, it binds the view to the task's details
+   * @param oEvent 
+   */
   private onRouteMatched(oEvent: Route$PatternMatchedEvent): void {
     this.taskId = (oEvent.getParameter("arguments") as { taskId?: string }).taskId;
     if (this.taskId) {
@@ -178,6 +186,11 @@ export default class TaskDetail extends Controller {
     }
   }
 
+  /**
+   * Handles the comment action press. 
+   * This method processes actions like delete, share, and edit on comments.
+   * @param oEvent The event object for the comment action press.
+   */
   public onCommentActionPress(oEvent: FeedListItemAction$PressEvent): void {
     const actionKey = oEvent.getSource().getKey();
 
@@ -292,11 +305,14 @@ export default class TaskDetail extends Controller {
     }
   }
 
+  /**
+   * Handles the export of task details.
+   * This method creates a spreadsheet with task details and exports it.
+   * @param oEvent The event object for the export button press.
+   */
   public async onExportTask(oEvent: Button$PressEvent): Promise<void> {
     const oContext = this.getView()?.getBindingContext();
-    const serviceUrl = (
-      this.getView()?.getModel() as ODataModel
-    ).getServiceUrl();
+    const serviceUrl = (this.getView()?.getModel() as ODataModel).getServiceUrl();
     const oSheet = new Spreadsheet({
       fileName: "TaskDetails.xlsx",
       showProgress: true,
@@ -358,16 +374,21 @@ export default class TaskDetail extends Controller {
     }
   }
 
+  /**
+   * Handles the addition of a new tag.
+   * @param oEvent The event object.
+   */
   public onAddTag(oEvent: Button$PressEvent): void {
     const tagComboBox = new ComboBox({
       width: "100%",
       placeholder: "Enter tag name",
       items: {
-        path: "/TasksTags",
+        path: "/Tags",
         templateShareable: false,
-        template: new Item({
-          key: "{TasksTags/tag/name}",
-          text: "{TasksTags/tag/name}",
+        template: new ListItem({
+          key: "{ID}",
+          text: "{name}",
+          additionalText: "{description}",
         }),
       },
       selectionChange: (oEvent) => {
@@ -401,7 +422,7 @@ export default class TaskDetail extends Controller {
       beginButton: new Button({
         text: "Add",
         type: "Emphasized",
-        enabled: false,
+        enabled: true,
         press: () => {
           const tagName = tagComboBox.getValue();
           const oModel = this.getView()?.getModel() as ODataModel;
@@ -436,6 +457,40 @@ export default class TaskDetail extends Controller {
         tagDialog.destroy();
       },
     });
+    this.getView()?.addDependent(tagDialog);
     tagDialog.open();
+  }
+
+  public onEditTask(oEvent: Button$PressEvent): void {
+    const UIModel = this.getView()?.getModel("UI") as JSONModel;
+    const isEditable = UIModel.getProperty("/isEditMode");
+    UIModel.setProperty("/isEditMode", !isEditable);
+  }
+
+  public onCancelEdit(oEvent: Button$PressEvent): void {
+    const UIModel = this.getView()?.getModel("UI") as JSONModel;
+    UIModel.setProperty("/isEditMode", false);
+  }
+
+  public onSaveTask(oEvent: Button$PressEvent): void {
+    const UIModel = this.getView()?.getModel("UI") as JSONModel;
+    const isEditable = UIModel.getProperty("/isEditMode");
+    if (isEditable) {
+      const oContext = this.getView()?.getBindingContext();
+      const oModel = oContext?.getModel() as ODataModel;
+      if (oContext && oModel) {
+        oModel.submitChanges({
+          success: () => {
+            MessageToast.show("Task updated successfully");
+            UIModel.setProperty("/isEditMode", false);
+            oModel.refresh(true);
+          },
+          error: (err: Error) => {
+            Log.error("Error updating task:", err);
+            MessageBox.error("Error updating task: " + err.message);
+          },
+        });
+      }
+    }
   }
 }

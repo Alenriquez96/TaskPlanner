@@ -50,7 +50,12 @@ export default class TaskPlanner extends Controller {
         },
         priority: {
           value: "1", // Default to Low priority
-          required: true,
+          required: false,
+          valueState: ValueState.None,
+        },
+        severity: {
+          value: "1", // Default to Low severity
+          required: false,
           valueState: ValueState.None,
         },
         type: {
@@ -141,6 +146,7 @@ export default class TaskPlanner extends Controller {
       description: newTaskData.description.value,
       dueDate: newTaskData.dueDate.value,
       priority: newTaskData.priority.value,
+      type_ID: newTaskData.type.value,
       status_ID: "1", // Default to "To Do" status
     };
 

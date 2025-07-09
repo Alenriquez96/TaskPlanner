@@ -39,6 +39,10 @@
                         path: 'status_ID',
                         operator: 'EQ',
                         value1: '1'
+                    },
+                    sorter: {
+                        path: 'modifiedAt',
+                        descending: true
                     }
                 }">
                 <f:headerToolbar>
@@ -120,6 +124,10 @@
                         path: 'status_ID',
                         operator: 'EQ',
                         value1: '2'
+                    },
+                    sorter: {
+                        path: 'modifiedAt',
+                        descending: true
                     }
                 }">
                 <f:headerToolbar>
@@ -201,6 +209,10 @@
                         path: 'status_ID',
                         operator: 'EQ',
                         value1: '3'
+                    },
+                    sorter: {
+                        path: 'modifiedAt',
+                        descending: true
                     }
                 }">
                 <f:headerToolbar>

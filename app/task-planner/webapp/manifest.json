@@ -66,9 +66,11 @@
         "dataSource": "mainService",
         "preload": true,
         "settings": {
+          "defaultBindingMode": "TwoWay",
           "operationMode": "Server",
           "autoExpandSelect": true,
-          "earlyRequests": true
+          "earlyRequests": true,
+          "batch": true
         }
       }
     },

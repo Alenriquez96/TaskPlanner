@@ -9,7 +9,7 @@
         Formatter: 'task/planner/taskplanner/model/formatters'
     }"
 >
-    <uxap:ObjectPageLayout id="_IDGenObjectPageLayout">
+    <uxap:ObjectPageLayout id="_IDGenObjectPageLayout" showFooter="true">
         <uxap:headerTitle>
             <uxap:ObjectPageDynamicHeaderTitle id="_IDGenObjectPageDynamicHeaderTitle" >
                 <uxap:expandedHeading>
@@ -20,7 +20,7 @@
                 </uxap:snappedHeading>
                 <uxap:actions>
                     <Button id="_IDGenButton1" text="Delete" type="Negative" press="onDeleteTask"/>
-                    <Button id="_IDGenButton2" text="Edit" icon="sap-icon://edit" type="Emphasized" />
+                    <Button id="_IDGenButton2" text="Edit" icon="sap-icon://edit" type="Emphasized" press=".onEditTask"/>
                     <Button id="_IDGenButton3" text="Progress" icon="sap-icon://arrow-down" type="Accept" />
                     <Button id="_IDGenButton4" text="Export" icon="sap-icon://download" type="Neutral" press=".onExportTask"/>
                 </uxap:actions>
@@ -62,30 +62,63 @@
                 </VBox>
                 <VBox id="_IDGenVBox1" >
                     <Label id="_IDGenLabel3" text="Priority"/>
-                    <ObjectStatus id="_IDGenText6" text="{
-                        path:'priority',
-                        formatter: 'Formatter.priorityTextFormatter'
-                    }"
-                    state="{
-                        path: 'priority',
-                        formatter: 'Formatter.priorityFormatter'
-                    }"
+                    <ObjectStatus 
+                        id="_IDGenText6" 
+                        text="{
+                            path:'priority',
+                            formatter: 'Formatter.priorityTextFormatter'
+                        }"
+                        state="{
+                            path: 'priority',
+                            formatter: 'Formatter.priorityFormatter'
+                        }"
+                        visible="{= !${UI>/isEditMode} }"
                     />
+                    <Select 
+                        id="_IDGenInput2" 
+                        selectedKey="{priority}" 
+                        visible="{UI>/isEditMode}" 
+                        items="{priorityModel>/}"
+                    >
+                        <items>
+                            <core:ListItem id="_IDGenItem2" key="{priorityModel>key}" text="{priorityModel>title}" icon="{priorityModel>icon}"/>
+                        </items>  
+                    </Select>
                 </VBox>
                 <VBox id="_IDGenVBox3" >
                     <Label id="_IDGenLabel5" text="Severity"/>
-                    <ObjectStatus id="_IDGenObjectStatus" text="{
-                        path:'severity'
-                    }"
+                    <ObjectStatus 
+                        id="_IDGenObjectStatus" 
+                        text="{
+                            path:'severity'
+                        }"
+                        visible="{= !${UI>/isEditMode} }"
                     />
+                    <Select id="_IDGenSelect2" selectedKey="{severity_ID}" visible="{UI>/isEditMode}" items="{severityModel>/}">
+                        <items>
+                            <core:ListItem id="_IDGenListItem2" key="{severityModel>key}" text="{severityModel>key}"/>
+                        </items>
+                    </Select>
                 </VBox>
                 <VBox id="_IDGenVBox7" >
                     <Label id="_IDGenLabel13" text="Type"/>
-                    <ObjectStatus id="_IDGenObjectStatus6"
+                    <ObjectStatus 
+                        id="_IDGenObjectStatus6"
+                        visible="{= !${UI>/isEditMode} }"
                         text="{
                             path: 'type/name'
                         }"
                     />
+                    <Select 
+                        id="_IDGenSelect1"
+                        selectedKey="{type_ID}"
+                        visible="{UI>/isEditMode}"
+                        items="{/TaskTypes}"
+                    >
+                        <items>
+                            <core:ListItem id="_IDGenListItem" key="{ID}" text="{name}"  icon="sap-icon://add-product"/>
+                        </items>
+                    </Select>
                 </VBox>
             </FlexBox>
         </uxap:headerContent>
@@ -93,7 +126,7 @@
             <uxap:ObjectPageSection title="Task Details" id="_IDGenObjectPageSection">
                 <uxap:subSections>
                     <uxap:ObjectPageSubSection id="_IDGenObjectPageSubSection1" >
-                        <form:SimpleForm id="_IDGenSimpleForm" editable="false">
+                        <form:SimpleForm id="_IDGenSimpleForm" editable="false" visible="{= !${UI>/isEditMode}}">
                             <form:content>
                                 <Label id="_IDGenLabel7"  text="Title"/>
                                 <Text id="_IDGenText3"  text="{title}"/>
@@ -104,6 +137,20 @@
                                     path: 'dueDate',
                                     formatter: 'Formatter.longDateFormatter'    
                                 }"/>
+                            </form:content>
+                        </form:SimpleForm>
+                        <form:SimpleForm id="editFormDetailPage" editable="true" visible="{UI>/isEditMode}">
+                            <form:content>
+                                <Label id="edit_IDGenLabel7"  text="Title"/>
+                                <Input id="edit_IDGenInput" value="{title}"/>
+                                <Label id="edit_IDGenLabel8"  text="Description"/>
+                                <TextArea id="edit_IDGenTextArea" value="{description}"/>
+                                <Label id="edit_IDGenLabel9"  text="Due Date"/>
+                                <DatePicker 
+                                    id="edit_IDGenDatePicker" 
+                                    displayFormat="dd/MM/yyyy"
+                                    value="{dueDate}"    
+                                />
                             </form:content>
                         </form:SimpleForm>
                     </uxap:ObjectPageSubSection>
@@ -188,5 +235,12 @@
             </uxap:ObjectPageSection>
         </uxap:sections>
         
+        <uxap:footer>
+            <OverflowToolbar id="_IDGenOverflowToolbar3" visible="{UI>/isEditMode}">
+                <ToolbarSpacer id="_IDGenToolbarSpacer2" />
+                <Button id="_IDGenButton6" text="Save" type="Accept" press=".onSaveTask"/>
+                <Button id="_IDGenButton7" text="Cancel" type="Reject" press=".onCancelEdit"/>
+            </OverflowToolbar>
+        </uxap:footer>
     </uxap:ObjectPageLayout>
 </mvc:View>

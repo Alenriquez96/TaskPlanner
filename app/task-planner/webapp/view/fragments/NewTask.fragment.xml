@@ -10,6 +10,7 @@
         type="Standard"
         resizable="true"
         draggable="true"
+        contentWidth="600px"
         afterClose=".onAfterClose"
     >
      <content>
@@ -53,6 +54,19 @@
                 >
                     <items>
                         <core:Item id="_IDGenItem" key="{priorityModel>key}" text="{priorityModel>title}"/>
+                    </items>
+                </Select>
+
+                <Label id="_IDGenLabel16" text="Severity" required="{newTask>/severity/required}"/>
+                <Select 
+                    id="taskSeverityInput" 
+                    forceSelection="true"
+                    selectedKey="{newTask>/severity/value}" 
+                    valueState="{newTask>/severity/valueState}" 
+                    items="{severityModel>/}"
+                >
+                    <items>
+                        <core:Item id="_IDGenItem3" key="{severityModel>key}" text="{severityModel>key}"/>
                     </items>
                 </Select>
 
