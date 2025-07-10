@@ -20,10 +20,9 @@
                 </content>
             </Toolbar>
         </headerContent>
-        <HBox id="_IDGenHBox" justifyContent="SpaceAround" gap="20px" wrap="Wrap" class="sapUiSmallMargin">
+        <HBox id="_IDGenHBox" justifyContent="SpaceAround" gap="30px" wrap="Wrap" class="sapUiSmallMargin">
             <f:GridList
                 id="gridListToDo"
-                width="auto"
                 noDataText="No tasks to do"
                 growing="true"
                 growingDirection="Downwards"
@@ -58,9 +57,11 @@
                     <dnd:DragInfo id="_IDGenDragInfo2"  sourceAggregation="items" />
                     <dnd-grid:GridDropInfo id="_IDGenGridDropInfo1"  targetAggregation="items" dropPosition="Between" dropLayout="Horizontal" drop="onDrop" />
                 </f:dragDropConfig>
-
+                <f:layoutData>
+                    <FlexItemData id="_IDGenFlexItemData4" growFactor="1" shrinkFactor="0" baseSize="0"/>
+                </f:layoutData>
                 <f:customLayout>
-                    <grid:GridBoxLayout id="_IDGenGridBoxLayout1"  boxMinWidth="17rem" />
+                    <grid:GridBoxLayout id="_IDGenGridBoxLayout1" boxMinWidth="22rem" />
                 </f:customLayout>
                 <f:items>
                     <f:GridListItem 
@@ -76,7 +77,7 @@
                         >
                         <VBox id="_IDGenVBox2" wrap="Wrap" height="100%" width="100%" class="sapUiSmallMargin" gap="1rem">
                             <layoutData>
-                                <FlexItemData id="_IDGenFlexItemData1"  growFactor="1" shrinkFactor="0"/>
+                                <FlexItemData id="_IDGenFlexItemData1"  growFactor="1" shrinkFactor="0" baseSize="0"/>
                             </layoutData>
 
                             <Title id="_IDGenTitle1"  text="{title}" wrapping="true" />
@@ -108,7 +109,6 @@
 
             <f:GridList
                 id="gridListInProgress"
-                width="auto"
                 noDataText="No tasks in progress"
                 growing="true"
                 growingDirection="Downwards"
@@ -143,9 +143,11 @@
                     <dnd:DragInfo id="_IDGenDragInfo1" sourceAggregation="items" />
                     <dnd-grid:GridDropInfo id="_IDGenGridDropInfo" targetAggregation="items" dropPosition="Between" dropLayout="Horizontal" drop="onDrop" />
                 </f:dragDropConfig>
-
+                <f:layoutData>
+                    <FlexItemData id="_IDGenFlexItemData5" growFactor="1" shrinkFactor="0" baseSize="0"/>
+                </f:layoutData>
                 <f:customLayout>
-                    <grid:GridBoxLayout id="_IDGenGridBoxLayout" boxMinWidth="17rem" />
+                    <grid:GridBoxLayout id="_IDGenGridBoxLayout" boxMinWidth="22rem" />
                 </f:customLayout>
 
                 <f:items>
@@ -162,7 +164,7 @@
                     >
                         <VBox id="_IDGenVBox" wrap="Wrap" height="100%" width="100%" class="sapUiSmallMargin" gap="1rem">
                             <layoutData>
-                                <FlexItemData id="_IDGenFlexItemData" growFactor="1" shrinkFactor="0" />
+                                <FlexItemData id="_IDGenFlexItemData" growFactor="1" shrinkFactor="0" baseSize="0"/>
                             </layoutData>
 
                             <Title id="_IDGenTitle" text="{title}" wrapping="true" />
@@ -182,7 +184,7 @@
                                 templateShareable: false
                             }">
                                 <items>
-                                    <GenericTag id="_IDGenGenericTag1" text="{name}"/>
+                                    <GenericTag id="_IDGenGenericTag1" text="{tag/name}"/>
                                 </items>
                             </HBox>
                             <ObjectStatus id="_IDGenObjectStatus7" title="Type" inverted="true" icon="sap-icon://add-product" text="{type/name}"/>
@@ -193,7 +195,6 @@
 
             <f:GridList
                 id="gridListCompleted"
-                width="auto"
                 noDataText="No completed tasks"
                 growing="true"
                 growingDirection="Downwards"
@@ -228,9 +229,11 @@
                     <dnd:DragInfo id="_IDGenDragInfo3"  sourceAggregation="items" />
                     <dnd-grid:GridDropInfo id="_IDGenGridDropInfo2"  targetAggregation="items" dropPosition="Between" dropLayout="Horizontal" drop="onDrop" />
                 </f:dragDropConfig>
-
+                <f:layoutData>
+                    <FlexItemData id="_IDGenFlexItemData6" growFactor="1" shrinkFactor="0" baseSize="0"/>
+                </f:layoutData>
                 <f:customLayout>
-                    <grid:GridBoxLayout id="_IDGenGridBoxLayout2"  boxMinWidth="17rem" />
+                    <grid:GridBoxLayout id="_IDGenGridBoxLayout2"  boxMinWidth="22rem" />
                 </f:customLayout>
                 <f:items>
                     <f:GridListItem 
@@ -246,7 +249,7 @@
                         >
                         <VBox id="_IDGenVBox4" wrap="Wrap" height="100%" width="100%" class="sapUiSmallMargin" gap="1rem">
                             <layoutData>
-                                <FlexItemData id="_IDGenFlexItemData2"  growFactor="1" shrinkFactor="0" />
+                                <FlexItemData id="_IDGenFlexItemData2"  growFactor="1" shrinkFactor="0" baseSize="0"/>
                             </layoutData>
 
                             <Title id="_IDGenTitle2"  text="{title}" wrapping="true" />
@@ -266,7 +269,7 @@
                                 templateShareable: false
                             }">
                                 <items>
-                                    <GenericTag id="_IDGenGenericTag2" text="{name}"/>
+                                    <GenericTag id="_IDGenGenericTag2" text="{tag/name}"/>
                                 </items>
                             </HBox>
                             <ObjectStatus id="_IDGenObjectStatus8" title="Type" inverted="true" icon="sap-icon://add-product" text="{type/name}"/>

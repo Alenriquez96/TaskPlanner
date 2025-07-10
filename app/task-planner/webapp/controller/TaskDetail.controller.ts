@@ -22,6 +22,7 @@ import Spreadsheet from "sap/ui/export/Spreadsheet";
 import Context from "sap/ui/model/Context";
 import JSONModel from "sap/ui/model/json/JSONModel";
 import ODataModel from "sap/ui/model/odata/v2/ODataModel";
+import { Tag, TaskTags } from "../model/types";
 
 /**
  * @namespace task.planner.taskplanner.controller
@@ -394,8 +395,10 @@ export default class TaskDetail extends Controller {
       selectionChange: (oEvent) => {
         const selectedItem = oEvent.getParameter("selectedItem");
         if (selectedItem) {
+          tagDialog.getBeginButton()?.setEnabled(true);
           tagComboBox.setValueState("None");
         } else {
+          tagDialog.getBeginButton()?.setEnabled(false);
           tagComboBox.setValueState("Error");
         }
       },
@@ -407,6 +410,7 @@ export default class TaskDetail extends Controller {
       draggable: true,
       state: "Information",
       type: "Message",
+      busyIndicatorDelay: 0,
       content: [
         new VBox({
           width: "100%",
@@ -422,29 +426,19 @@ export default class TaskDetail extends Controller {
       beginButton: new Button({
         text: "Add",
         type: "Emphasized",
-        enabled: true,
-        press: () => {
-          const tagName = tagComboBox.getValue();
-          const oModel = this.getView()?.getModel() as ODataModel;
-          const oContext = this.getView()?.getBindingContext();
-          const path = oContext?.getPath();
+        enabled: false,
+        press: async () => {
+          tagDialog.setBusy(true);
+          const tag = tagComboBox.getSelectedItem()?.getBindingContext()?.getObject() as Tag;
 
-          if (oModel && oContext && path) {
-            oModel.create(
-              `${path}/tags`,
-              { tag: { name: tagName } },
-              {
-                success: () => {
-                  MessageToast.show("Tag added successfully");
-                  tagDialog.close();
-                },
-                error: (err: Error) => {
-                  Log.error("Error adding tag:", err);
-                  MessageBox.error("Error adding tag: " + err.message);
-                },
-              }
-            );
-          }
+          await this.addTags([{
+            ID: tag.ID,
+            name: tag.name,
+            descr: tag.descr
+          }]);
+
+          tagDialog.setBusy(false);
+          tagDialog.close();
         },
       }),
       endButton: new Button({
@@ -459,6 +453,42 @@ export default class TaskDetail extends Controller {
     });
     this.getView()?.addDependent(tagDialog);
     tagDialog.open();
+  }
+
+  private addTags(tags: Tag[]): Promise<void> {
+    return new Promise((resolve, reject) => {
+      const oModel = this.getView()?.getModel() as ODataModel;
+      const task_ID = this.getView()?.getBindingContext()?.getProperty("ID");
+
+      if (oModel) {
+        oModel.setDeferredGroups(["tagGroup"]);
+        tags.forEach((tag) => {
+          const payload: TaskTags = {
+            task_ID: task_ID,
+            tag_ID: tag.ID,
+          };
+          oModel.create(`/TasksTags`, payload, {
+            groupId: "tagGroup"
+          });
+        });
+
+        oModel.submitChanges({
+          groupId: "tagGroup",
+          success: () => {
+            MessageToast.show("Tags added successfully");
+            oModel.refresh(true);
+            resolve();
+          },
+          error: (err: Error) => {
+            Log.error("Error adding tags:", err);
+            MessageBox.error("Error adding tags: " + err.message);
+            reject(err);
+          },
+        });
+      } else {
+        reject(new Error("ODataModel not found"));
+      }
+    });
   }
 
   public onEditTask(oEvent: Button$PressEvent): void {
