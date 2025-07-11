@@ -23,6 +23,7 @@ import Context from "sap/ui/model/Context";
 import JSONModel from "sap/ui/model/json/JSONModel";
 import ODataModel from "sap/ui/model/odata/v2/ODataModel";
 import { Tag, TaskTags } from "../model/types";
+import List from "sap/m/List";
 
 /**
  * @namespace task.planner.taskplanner.controller
@@ -491,6 +492,42 @@ export default class TaskDetail extends Controller {
     });
   }
 
+  public onDeleteTags(oEvent: Button$PressEvent): void {
+    const oContext = this.getView()?.getBindingContext();
+    
+    if (oContext) {
+      const oModel = oContext.getModel() as ODataModel;
+      const tagsList = oEvent.getSource().getParent()?.getParent() as List;
+      const selectedItems = tagsList.getSelectedItems();
+      const taskTags = selectedItems.map(item => { 
+        return { task_ID: item.getBindingContext()?.getProperty("task_ID"), tag_ID: item.getBindingContext()?.getProperty("tag_ID") };
+      });
+
+      if (taskTags && taskTags.length > 0) {
+        oModel.setDeferredGroups(["tagGroup"]);
+        taskTags.forEach(tag => {
+          oModel.remove(`/TasksTags(task_ID=${tag.task_ID},tag_ID=${tag.tag_ID})`, {
+            groupId: "tagGroup"
+          });
+        });
+
+        oModel.submitChanges({
+          groupId: "tagGroup",
+          success: () => {
+            MessageToast.show("Tags deleted successfully");
+            oModel.refresh(true);
+          },
+          error: (err: Error) => {
+            Log.error("Error deleting tags:", err);
+            MessageBox.error("Error deleting tags: " + err.message);
+          },
+        });
+      } else {
+        MessageBox.warning("No tags selected for deletion.");
+      }
+    }
+  }
+
   public onEditTask(oEvent: Button$PressEvent): void {
     const UIModel = this.getView()?.getModel("UI") as JSONModel;
     const isEditable = UIModel.getProperty("/isEditMode");
@@ -520,6 +557,32 @@ export default class TaskDetail extends Controller {
             MessageBox.error("Error updating task: " + err.message);
           },
         });
+      }
+    }
+  }
+
+  public onProgressTask(oEvent: Button$PressEvent): void {
+    const oContext = this.getView()?.getBindingContext();
+    const oModel = oContext?.getModel() as ODataModel;
+
+    if (oContext && oModel) {
+      const taskStatus = oContext.getProperty("status");
+      const nextStatus = taskStatus?.nextStatus_ID;
+
+      if (nextStatus) {
+        oModel.setProperty(`${oContext.getPath()}/status_ID`, nextStatus, oContext);
+        oModel.submitChanges({
+          success: () => {
+            MessageToast.show("Task status updated successfully");
+            oModel.refresh(true);
+          },
+          error: (err: Error) => {
+            Log.error("Error updating task status:", err);
+            MessageBox.error("Error updating task status: " + err.message);
+          },
+        });
+      } else {
+        MessageBox.warning("No next status available for this task.");
       }
     }
   }

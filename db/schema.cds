@@ -19,6 +19,8 @@ entity TaskStatuses {
     key ID : Integer;
     name  : String(255);
     descr : String(1000);
+    nextStatus: Association to one TaskStatuses on nextStatus_ID = $self.ID;
+    nextStatus_ID: Integer;
 }
 
 entity Tags: cuid, managed {

@@ -21,7 +21,7 @@
                 <uxap:actions>
                     <Button id="_IDGenButton1" text="Delete" type="Negative" press="onDeleteTask"/>
                     <Button id="_IDGenButton2" text="Edit" icon="sap-icon://edit" type="Emphasized" press=".onEditTask"/>
-                    <Button id="_IDGenButton3" text="Progress" icon="sap-icon://arrow-down" type="Accept" />
+                    <Button id="_IDGenButton3" text="Progress" icon="sap-icon://arrow-down" type="Accept" press=".onProgressTask"/>
                     <Button id="_IDGenButton4" text="Export" icon="sap-icon://download" type="Neutral" press=".onExportTask"/>
                 </uxap:actions>
                 <uxap:navigationActions>
@@ -159,7 +159,7 @@
             <uxap:ObjectPageSection id="_IDGenObjectPageSection1" title="Tags">
                 <uxap:subSections>
                     <uxap:ObjectPageSubSection id="_IDGenObjectPageSubSection" >
-                        <List id="_IDGenList" noDataText="No tags" items="{
+                        <List id="_IDGenList" noDataText="No tags" mode="MultiSelect" items="{
                             path: 'tags',
                             templateShareable: false
                         }">
@@ -168,11 +168,18 @@
                                     <ToolbarSpacer id="_IDGenToolbarSpacer" />
                                     <content>
                                         <Button id="_IDGenButton5" text="Add Tag" type="Emphasized" press=".onAddTag"/>
+                                        <Button id="_IDGenButtonDeleteTags" text="Delete Tags" type="Reject" press=".onDeleteTags"/>
                                     </content>
                                 </OverflowToolbar>
                             </headerToolbar>
                             <items>
-                                <StandardListItem id="_IDGenStandardListItem" wrapping="true" description="{tag/descr}" infoState="Information" title="{tag/name}"/>
+                                <StandardListItem 
+                                    id="_IDGenStandardListItem" 
+                                    wrapping="true" 
+                                    description="{tag/descr}" 
+                                    infoState="Information" 
+                                    title="{tag/name}"
+                                />
                             </items>
                         </List>
                     </uxap:ObjectPageSubSection>
