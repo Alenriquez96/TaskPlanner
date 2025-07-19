@@ -13,11 +13,11 @@ The application is developed in TypeScript and runs on a Node.js backend, ensuri
 ### Task Planner Kanban Board
 ![Task Planner](./assets/captura_home.PNG)
 ### Task Detail Page
-![Task Detail](./assets/captura_detail.PNG)
+![Task Detail](./assets/Captura_detail.PNG)
 ### Task Detail Edit
-![Task Detail Edit](./assets/captura_detail_edit.PNG)
+![Task Detail Edit](./assets/Captura_detail_edit.PNG)
 ### Task Creation
-![Task Creation](./assets/captura_create.PNG)
+![Task Creation](./assets/Captura_create.PNG)
 
 ## Features
 
@@ -79,7 +79,7 @@ The application is developed in TypeScript and runs on a Node.js backend, ensuri
 6. Open your browser and navigate to `http://localhost:8080` to view the application.
 
 ## Data Model
-![Task Planner](./assets/captura_datamodel.PNG)
+![Task Planner](./assets/Captura_datamodel.PNG)
 The data model is defined using Core Data Services (CDS) and includes the following entities:
 - **Tasks**: Represents a task with properties like ID, title, description, status, priority, and tags.
 - **Comments**: Represents a comment associated with a task.
