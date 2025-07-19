@@ -66,7 +66,6 @@
                 <f:items>
                     <f:GridListItem 
                         id="_IDGenGridListItem1" 
-                        counter="1"
                         highlight="{
                             path: 'status_ID', 
                             formatter: 'Formatter.statusTask'
@@ -153,7 +152,6 @@
                 <f:items>
                     <f:GridListItem 
                         id="_IDGenGridListItem"
-                        counter="1"
                         highlight="{
                             path: 'status_ID', 
                             formatter: 'Formatter.statusTask'
@@ -238,7 +236,6 @@
                 <f:items>
                     <f:GridListItem 
                         id="_IDGenGridListItem2" 
-                        counter="1"
                         highlight="{
                             path: 'status_ID', 
                             formatter: 'Formatter.statusTask'
