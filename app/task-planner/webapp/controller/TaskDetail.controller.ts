@@ -24,6 +24,7 @@ import JSONModel from "sap/ui/model/json/JSONModel";
 import ODataModel from "sap/ui/model/odata/v2/ODataModel";
 import { Tag, TaskTags } from "../model/types";
 import List from "sap/m/List";
+import MultiComboBox from "sap/m/MultiComboBox";
 
 /**
  * @namespace task.planner.taskplanner.controller
@@ -45,7 +46,7 @@ export default class TaskDetail extends Controller {
     this.getView()?.setModel(
       new JSONModel({
         isFullScreen: false,
-        isEditMode: false
+        isEditMode: false,
       }),
       "UI"
     );
@@ -76,10 +77,12 @@ export default class TaskDetail extends Controller {
    * Handler for the route matched event. It gets triggered when the route for the task detail view is matched.
    * This method retrieves the task ID from the route parameters and binds the view to the corresponding task.
    * If the task ID is present, it binds the view to the task's details
-   * @param oEvent 
+   * @param oEvent
    */
   private onRouteMatched(oEvent: Route$PatternMatchedEvent): void {
-    this.taskId = (oEvent.getParameter("arguments") as { taskId?: string }).taskId;
+    this.taskId = (
+      oEvent.getParameter("arguments") as { taskId?: string }
+    ).taskId;
     if (this.taskId) {
       this.getView()?.bindElement({
         path: `/Tasks(${this.taskId})`,
@@ -95,10 +98,17 @@ export default class TaskDetail extends Controller {
    */
   public handleClose(): void {
     if (this.oRouter && this.oRouter.getRoute("RouteTaskPlanner")) {
-      (this.getView()?.getModel("UI") as JSONModel)?.setProperty("/isFullScreen",false);
-      this.oRouter.navTo("RouteTaskPlanner", {
-        layout: LayoutType.OneColumn,
-      }, true);
+      (this.getView()?.getModel("UI") as JSONModel)?.setProperty(
+        "/isFullScreen",
+        false
+      );
+      this.oRouter.navTo(
+        "RouteTaskPlanner",
+        {
+          layout: LayoutType.OneColumn,
+        },
+        true
+      );
     }
   }
 
@@ -145,21 +155,35 @@ export default class TaskDetail extends Controller {
 
   public handleFullScreen(oEvent: Button$PressEvent): void {
     if (this.oRouter) {
-      (this.getView()?.getModel("UI") as JSONModel)?.setProperty("/isFullScreen",true);
-      this.oRouter.navTo("RouteTaskPlannerDetail", {
-        taskId: this.taskId,
-        layout: LayoutType.MidColumnFullScreen,
-      }, true);
+      (this.getView()?.getModel("UI") as JSONModel)?.setProperty(
+        "/isFullScreen",
+        true
+      );
+      this.oRouter.navTo(
+        "RouteTaskPlannerDetail",
+        {
+          taskId: this.taskId,
+          layout: LayoutType.MidColumnFullScreen,
+        },
+        true
+      );
     }
   }
 
   public handleExitFullScreen(oEvent: Button$PressEvent): void {
     if (this.oRouter) {
-      (this.getView()?.getModel("UI") as JSONModel)?.setProperty("/isFullScreen",false);
-      this.oRouter.navTo("RouteTaskPlannerDetail", {
-        taskId: this.taskId,
-        layout: LayoutType.TwoColumnsMidExpanded,
-      }, true);
+      (this.getView()?.getModel("UI") as JSONModel)?.setProperty(
+        "/isFullScreen",
+        false
+      );
+      this.oRouter.navTo(
+        "RouteTaskPlannerDetail",
+        {
+          taskId: this.taskId,
+          layout: LayoutType.TwoColumnsMidExpanded,
+        },
+        true
+      );
     }
   }
 
@@ -189,7 +213,7 @@ export default class TaskDetail extends Controller {
   }
 
   /**
-   * Handles the comment action press. 
+   * Handles the comment action press.
    * This method processes actions like delete, share, and edit on comments.
    * @param oEvent The event object for the comment action press.
    */
@@ -314,7 +338,9 @@ export default class TaskDetail extends Controller {
    */
   public async onExportTask(oEvent: Button$PressEvent): Promise<void> {
     const oContext = this.getView()?.getBindingContext();
-    const serviceUrl = (this.getView()?.getModel() as ODataModel).getServiceUrl();
+    const serviceUrl = (
+      this.getView()?.getModel() as ODataModel
+    ).getServiceUrl();
     const oSheet = new Spreadsheet({
       fileName: "TaskDetails.xlsx",
       showProgress: true,
@@ -377,138 +403,167 @@ export default class TaskDetail extends Controller {
   }
 
   /**
-   * Handles the addition of a new tag.
+   * Handles the addition of new tags.
    * @param oEvent The event object.
    */
   public onAddTag(oEvent: Button$PressEvent): void {
-    const tagComboBox = new ComboBox({
-      width: "100%",
-      placeholder: "Enter tag name",
-      items: {
-        path: "/Tags",
-        templateShareable: false,
-        template: new ListItem({
-          key: "{ID}",
-          text: "{name}",
-          additionalText: "{description}",
-        }),
-      },
-      selectionChange: (oEvent) => {
-        const selectedItem = oEvent.getParameter("selectedItem");
-        if (selectedItem) {
-          tagDialog.getBeginButton()?.setEnabled(true);
-          tagComboBox.setValueState("None");
-        } else {
-          tagDialog.getBeginButton()?.setEnabled(false);
-          tagComboBox.setValueState("Error");
-        }
-      },
-    });
-
-    const tagDialog = new Dialog({
-      title: "Add Tag",
-      resizable: true,
-      draggable: true,
-      state: "Information",
-      type: "Message",
-      busyIndicatorDelay: 0,
-      content: [
-        new VBox({
+      const selectedTags = this.getView()?.getBindingContext()?.getProperty("tags");
+      const tagIDs = selectedTags.map((tag: string)=> tag.split("tag_ID=guid'")[1].split("'")[0]);
+      const tagComboBox = new MultiComboBox({
           width: "100%",
-          items: [
-            new Label({
-              text: "Enter the tag name:",
-            }),
-            tagComboBox,
+          placeholder: "Enter tag name",
+          selectedKeys: tagIDs,
+          showSelectAll: true,
+          showClearIcon: true,
+          showButton: true,
+          maxWidth: "100%",
+          showSecondaryValues: true,
+          items: {
+              path: "/Tags",
+              templateShareable: false,
+              template: new ListItem({
+                  key: "{ID}",
+                  text: "{name}",
+                  additionalText: "{description}",
+              }),
+          },
+          selectionFinish: (oEvent) => {
+              const selectedItems = oEvent.getParameter("selectedItems") as ListItem[];
+              if (selectedItems && selectedItems.length > 0) {
+                  tagDialog.getBeginButton()?.setEnabled(true);
+                  tagComboBox.setValueState("None");
+              } else {
+                  tagDialog.getBeginButton()?.setEnabled(false);
+                  tagComboBox.setValueState("Error");
+              }
+          }
+      });
+
+      const tagDialog = new Dialog({
+          title: "Add Tag",
+          resizable: true,
+          draggable: true,
+          state: "Information",
+          contentWidth: "30rem",
+          type: "Message",
+          busyIndicatorDelay: 0,
+          content: [
+              new VBox({
+                  width: "100%",
+                  items: [
+                    new Label({
+                      text: "Enter the tag name:",
+                    }),
+                    tagComboBox,
+                  ],
+              }),
           ],
-        }),
-      ],
 
-      beginButton: new Button({
-        text: "Add",
-        type: "Emphasized",
-        enabled: false,
-        press: async () => {
-          tagDialog.setBusy(true);
-          const tag = tagComboBox.getSelectedItem()?.getBindingContext()?.getObject() as Tag;
+          beginButton: new Button({
+              text: "Add",
+              type: "Emphasized",
+              enabled: false,
+              press: async () => {
+                try {
+                    tagDialog.setBusy(true);
+                    const selectedTags = tagComboBox.getSelectedItems() as ListItem[];
+                    const tags = selectedTags.map((item) => {
+                        const tagObject = item.getBindingContext()?.getObject() as Tag;
+                        return {
+                          ID: tagObject.ID,
+                          name: tagObject.name,
+                          descr: tagObject.descr,
+                        };
+                    });
 
-          await this.addTags([{
-            ID: tag.ID,
-            name: tag.name,
-            descr: tag.descr
-          }]);
-
-          tagDialog.setBusy(false);
-          tagDialog.close();
-        },
-      }),
-      endButton: new Button({
-        text: "Cancel",
-        press: () => {
-          tagDialog.close();
-        },
-      }),
-      afterClose: () => {
-        tagDialog.destroy();
-      },
-    });
-    this.getView()?.addDependent(tagDialog);
-    tagDialog.open();
+                    await this.addTags(tags);
+                    tagComboBox.setSelectedKeys(tags.map((tag) => tag.ID));
+                } catch (error) {
+                    MessageBox.error("Error adding tags: " + error);
+                } finally {
+                    tagDialog.setBusy(false);
+                    tagDialog.close();
+                }
+              },
+          }),
+          endButton: new Button({
+              text: "Cancel",
+              press: () => {
+                  tagDialog.close();
+              },
+          }),
+          afterClose: () => {
+              tagDialog.destroy();
+          },
+      });
+      this.getView()?.addDependent(tagDialog);
+      tagDialog.open();
   }
 
+  /**
+   * Adds tags to the task.
+   * @param {Tag[]} tags The tags to add.
+   * @returns A promise that resolves when the tags have been added.
+   */
   private addTags(tags: Tag[]): Promise<void> {
     return new Promise((resolve, reject) => {
       const oModel = this.getView()?.getModel() as ODataModel;
       const task_ID = this.getView()?.getBindingContext()?.getProperty("ID");
 
       if (oModel) {
-        oModel.setDeferredGroups(["tagGroup"]);
-        tags.forEach((tag) => {
-          const payload: TaskTags = {
-            task_ID: task_ID,
-            tag_ID: tag.ID,
-          };
-          oModel.create(`/TasksTags`, payload, {
-            groupId: "tagGroup"
+          oModel.setDeferredGroups(["tagGroup"]);
+          tags.forEach((tag) => {
+              const payload: TaskTags = {
+                  task_ID: task_ID,
+                  tag_ID: tag.ID,
+              };
+              oModel.create(`/TasksTags`, payload, {
+                  groupId: "tagGroup",
+              });
           });
-        });
 
-        oModel.submitChanges({
-          groupId: "tagGroup",
-          success: () => {
-            MessageToast.show("Tags added successfully");
-            oModel.refresh(true);
-            resolve();
-          },
-          error: (err: Error) => {
-            Log.error("Error adding tags:", err);
-            MessageBox.error("Error adding tags: " + err.message);
-            reject(err);
-          },
-        });
+          oModel.submitChanges({
+              groupId: "tagGroup",
+              success: () => {
+                  MessageToast.show("Tags added successfully");
+                  oModel.refresh(true);
+                  resolve();
+              },
+              error: (err: Error) => {
+                  Log.error("Error adding tags:", err);
+                  MessageBox.error("Error adding tags: " + err.message);
+                  reject(err);
+              },
+          });
       } else {
-        reject(new Error("ODataModel not found"));
+          reject(new Error("ODataModel not found"));
       }
     });
   }
 
   public onDeleteTags(oEvent: Button$PressEvent): void {
     const oContext = this.getView()?.getBindingContext();
-    
+
     if (oContext) {
       const oModel = oContext.getModel() as ODataModel;
       const tagsList = oEvent.getSource().getParent()?.getParent() as List;
       const selectedItems = tagsList.getSelectedItems();
-      const taskTags = selectedItems.map(item => { 
-        return { task_ID: item.getBindingContext()?.getProperty("task_ID"), tag_ID: item.getBindingContext()?.getProperty("tag_ID") };
+      const taskTags = selectedItems.map((item) => {
+        return {
+          task_ID: item.getBindingContext()?.getProperty("task_ID"),
+          tag_ID: item.getBindingContext()?.getProperty("tag_ID"),
+        };
       });
 
       if (taskTags && taskTags.length > 0) {
         oModel.setDeferredGroups(["tagGroup"]);
-        taskTags.forEach(tag => {
-          oModel.remove(`/TasksTags(task_ID=${tag.task_ID},tag_ID=${tag.tag_ID})`, {
-            groupId: "tagGroup"
-          });
+        taskTags.forEach((tag) => {
+          oModel.remove(
+            `/TasksTags(task_ID=${tag.task_ID},tag_ID=${tag.tag_ID})`,
+            {
+              groupId: "tagGroup",
+            }
+          );
         });
 
         oModel.submitChanges({
@@ -570,7 +625,11 @@ export default class TaskDetail extends Controller {
       const nextStatus = taskStatus?.nextStatus_ID;
 
       if (nextStatus) {
-        oModel.setProperty(`${oContext.getPath()}/status_ID`, nextStatus, oContext);
+        oModel.setProperty(
+          `${oContext.getPath()}/status_ID`,
+          nextStatus,
+          oContext
+        );
         oModel.submitChanges({
           success: () => {
             MessageToast.show("Task status updated successfully");

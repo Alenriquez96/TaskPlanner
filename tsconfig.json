@@ -10,9 +10,8 @@
     "sourceMap": true,
     "allowJs": true,
     "paths": {
-      "#cds-models/*": [
-        "./@cds-models/*"
-      ]
-    }
+      "#cds-models/*": ["./@cds-models/*"]
+    },
+    "typeRoots": ["./node_modules/@types", "./node_modules/@cap-js"]
   }
 }
